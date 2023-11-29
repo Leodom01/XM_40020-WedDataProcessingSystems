@@ -1,3 +1,7 @@
 ctransformers
+scikit-learn
 nltk
 spacy
+SPARQLWrapper
+sentence-transformers
+numpy
