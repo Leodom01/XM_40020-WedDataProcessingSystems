@@ -5,3 +5,10 @@ spacy
 SPARQLWrapper
 sentence-transformers
 numpy
+
+torch>=1.6.0
+transformers>=3.4.0
+pytest>=5.3.2
+scikit-learn>=0.22.1
+scipy>=1.4.1
+six
