@@ -1,7 +1,7 @@
 
 # XM_40020-WedDataProcessingSystems
 
-Given input: <ID question><TAB>text of the ques!on/comple!on<newline> 
+Given input: <ID question><TAB>text of the question/comple!on<newline> 
 
 will return a file with formatting: <ID ques!on><TAB>[R,A,C,E]<answer>
 
