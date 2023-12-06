@@ -32,6 +32,12 @@ enter the directory where you downloaded the dockerfile and run
 ```
 
 dockerfile will download dependencies from requirements.txt
+
+run the image just created
+
+```bash
+docker run image_name
+```
 ## Usage/Examples
 
 ```python
