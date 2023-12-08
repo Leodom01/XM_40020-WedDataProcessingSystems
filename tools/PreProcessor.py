@@ -1,6 +1,7 @@
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer, WordNetLemmatizer
-
+from stanza.server import CoreNLPClient
+import spacy
 class PreProcessor:
     def __init__(self, text_to_preprocess=""):
         self.text_to_preprocess = text_to_preprocess
@@ -33,3 +34,23 @@ class PreProcessor:
     def pipeline(self):
         # We think stemming could work worse
         return self.lemmatize()
+    def coref(self, text):
+        nlp = spacy.load("en_coreference_web_trf")
+        doc = nlp(text)
+        offset = 0
+        reindex = []
+        for chain in doc.spans:
+            for idx, span in enumerate(doc.spans[chain]):
+                if idx > 0:
+                    reindex.append([span.start_char, span.end_char, doc.spans[chain][0].text])
+
+        for span in sorted(reindex, key=lambda x: x[0]):
+            text = text[0:span[0] + offset] + span[2] + text[span[1] + offset:]
+            offset += len(span[2]) - (span[1] - span[0])
+
+        return text
+
+if __name__ == "__main__":
+    text = "John Smith was a guitarist. He played good. He also had 2 guitars"
+    t = PreProcessor()
+    print(t.coref(text))

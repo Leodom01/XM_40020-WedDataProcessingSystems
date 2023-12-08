@@ -5,7 +5,6 @@ spacy
 SPARQLWrapper
 sentence-transformers
 numpy
-stanford_openie
 torch>=1.6.0
 transformers>=3.4.0
 pytest>=5.3.2
@@ -13,3 +12,6 @@ scikit-learn>=0.22.1
 scipy>=1.4.1
 six
 llama_cpp_python
+stanza
+spacy-experimental==0.6.2
+https://github.com/explosion/spacy-experimental/releases/download/v0.6.1/en_coreference_web_trf-3.4.0a2-py3-none-any.whl

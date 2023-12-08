@@ -1,5 +1,7 @@
 import stanza
 from stanza.server import CoreNLPClient
+import PreProcessor
+import time
 '''
 This module is for open relation extraction on raw text using the Stanford Open IE
 https://nlp.stanford.edu/software/openie.html
@@ -13,7 +15,6 @@ class OpenRE:
         client = CoreNLPClient(timeout=150000000, be_quiet=True, annotators=['openie'],
                                endpoint='http://localhost:9001')
         client.start()
-
         document = client.annotate(text, output_format='json')
         triples = []
         for sentence in document['sentences']:
@@ -26,7 +27,9 @@ class OpenRE:
         return triples
 
 if __name__ == "__main__":
+    pp = PreProcessor.PreProcessor()
     text = 'Obama was born in Hawaii. Elon founded tesla. He also founded SpaceX'
+    text = pp.coref(text)
     OIE = OpenRE()
     triples = OIE.extract_relations_stanford(text)
     for triple in triples:
