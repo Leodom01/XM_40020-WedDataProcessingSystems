@@ -1,6 +1,6 @@
 #!/bin/bash
 
-unzip nltd_data.zip
+unzip -o nltk_data.zip >/dev/null
 
 # Build Docker image
 docker build -t llama_fact_checker:latest .

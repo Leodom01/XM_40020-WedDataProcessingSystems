@@ -1,6 +1,3 @@
-import os
-os.environ["NLTK_DATA"] = "/sharedFolder/nltk_data"
-
 from tools.PreProcessor import PreProcessor
 from tools.NER import NER
 from tools.OpenRE import OpenRE
@@ -27,9 +24,6 @@ while True:
     # Demo answer to test quickly
     # R = "Titus O’Neil Says He’ll Do Whatever NBA Asks of Him, Enjoyed Commentary"
     print("LLaMA Output: %s" % R)
-
-    # TODO: Remove exit after fixing the errors with importing files used by PreProcessor
-    exit();
 
     #Pre processing phase
     preProc = PreProcessor(R)
