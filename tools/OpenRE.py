@@ -1,6 +1,6 @@
 import stanza
 from stanza.server import CoreNLPClient
-import PreProcessor
+# import PreProcessor
 import time
 '''
 This module is for open relation extraction on raw text using the Stanford Open IE
@@ -27,9 +27,9 @@ class OpenRE:
         return triples
 
 if __name__ == "__main__":
-    pp = PreProcessor.PreProcessor()
+    # pp = PreProcessor.PreProcessor()
     text = 'Obama was born in Hawaii. Elon founded tesla. He also founded SpaceX'
-    text = pp.coref(text)
+    # text = pp.coref(text)
     OIE = OpenRE()
     triples = OIE.extract_relations_stanford(text)
     for triple in triples:
