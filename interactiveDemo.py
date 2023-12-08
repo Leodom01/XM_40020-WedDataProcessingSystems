@@ -35,9 +35,9 @@ while True:
     # ner.spacyVisulizer(doc)
 
     # Open Relation extractions
-    re = OpenRE(R)
+    re = OpenRE()
     re_threshold = 0.7
-    triples = re.extract_relations_openNRE(doc, re_threshold)
+    triples = re.extract_relations_stanford(R)
     print("Triples extracted:")
     for triple in triples:
         print(triple)
