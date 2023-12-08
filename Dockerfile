@@ -7,7 +7,9 @@ COPY . /sharedFolder
 RUN sudo apt update
 RUN sudo apt install -y default-jre
 # Install any needed packages specified in requirements.txt
-
 RUN pip install -r requirements.txt
+
+ENV NLTK_DATA=/sharedFolder/nltk_data
+
 
 RUN python3 -m spacy download en
