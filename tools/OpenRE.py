@@ -12,18 +12,20 @@ class OpenRE:
         stanza.install_corenlp()
 
     def extract_relations_stanford(self, text):
-        client = CoreNLPClient(timeout=150000000, be_quiet=True, annotators=['openie'],
-                               endpoint='http://localhost:9001')
-        client.start()
-        document = client.annotate(text, output_format='json')
-        triples = []
-        for sentence in document['sentences']:
-            for triple in sentence['openie']:
-                triples.append({
-                    'subject': triple['subject'],
-                    'relation': triple['relation'],
-                    'object': triple['object']
-                })
+        with CoreNLPClient(
+                annotators=['openie'],
+                timeout=30000,
+                memory='6G',
+                be_quiet = True) as client:
+            document = client.annotate(text, output_format='json')
+            triples = []
+            for sentence in document['sentences']:
+                for triple in sentence['openie']:
+                    triples.append({
+                        'subject': triple['subject'],
+                        'relation': triple['relation'],
+                        'object': triple['object']
+                    })
         return triples
 
 if __name__ == "__main__":

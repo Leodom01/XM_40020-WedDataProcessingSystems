@@ -35,13 +35,11 @@ while True:
     # ner.spacyVisulizer(doc)
 
     # Open Relation extractions
-    re = OpenRE(R)
-    re_threshold = 0.7
-    triples = re.extract_relations_openNRE(doc, re_threshold)
-    print("Triples extracted:")
+    re = OpenRE()
+    triples = re.extract_relations_stanford(R)
     for triple in triples:
         print(triple)
-    # rel_ext.extract_relations_stanford()
+
 
 
 
