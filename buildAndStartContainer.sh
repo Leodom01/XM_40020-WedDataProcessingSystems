@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "Downloading Stanford NLP model..."
+curl -OJL "https://huggingface.co/stanfordnlp/CoreNLP/resolve/main/stanford-corenlp-latest.zip"
+unzip -o stanford-corenlp-latest.zip >/dev/null
+mv stanford-corenlp-4.5.5 stanza_corenlp >/dev/null
 unzip -o nltk_data.zip >/dev/null
 
 # Build Docker image

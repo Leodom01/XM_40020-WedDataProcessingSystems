@@ -9,8 +9,10 @@ Python wrapper https://github.com/philipperemy/stanford-openie-python
 '''
 class OpenRE:
     def __init__(self):
-        stanza.install_corenlp()
+        # stanza.install_corenlp()
+        pass
 
+    # TODO: Find a way to shut the stdout of this down
     def extract_relations_stanford(self, text):
         with CoreNLPClient(
                 annotators=['openie'],
