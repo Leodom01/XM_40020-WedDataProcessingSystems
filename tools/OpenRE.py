@@ -1,7 +1,9 @@
-import stanza
 from stanza.server import CoreNLPClient
+import os
+
+corenlp_home = os.path.abspath(os.path.join(os.path.dirname(__file__), '../stanza_corenlp'))
+os.environ['CORENLP_HOME'] = corenlp_home
 # import PreProcessor
-import time
 '''
 This module is for open relation extraction on raw text using the Stanford Open IE
 https://nlp.stanford.edu/software/openie.html
@@ -12,7 +14,6 @@ class OpenRE:
         # stanza.install_corenlp()
         pass
 
-    # TODO: Find a way to shut the stdout of this down
     def extract_relations_stanford(self, text):
         with CoreNLPClient(
                 annotators=['openie'],
