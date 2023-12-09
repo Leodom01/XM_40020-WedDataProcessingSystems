@@ -24,21 +24,30 @@ while True:
     # Demo answer to test quickly
     # R = "Titus O’Neil Says He’ll Do Whatever NBA Asks of Him, Enjoyed Commentary"
     print("LLaMA Output: %s" % R)
+    print("==========================")
 
     #Pre processing phase
     preProc = PreProcessor(R)
     print("Pre processed: ", preProc.pipeline())
+    print("==========================")
+
 
     # Named entity recognition - temporarily using spacy
+    print("Named entities:")
     ner = NER(raw_text=R)
     doc = ner.ner_spacy()
-    # ner.spacyVisulizer(doc)
+    for ent in doc.ents:
+        print(ent)
+    print("==========================")
 
+    print("Extracted relations:")
     # Open Relation extractions
     re = OpenRE()
     triples = re.extract_relations_stanford(R)
     for triple in triples:
         print(triple)
+    print("==========================")
+
 
 
 
