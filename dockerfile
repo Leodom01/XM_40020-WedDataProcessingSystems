@@ -13,3 +13,5 @@ RUN pip install -U spacy
 RUN python3 -m spacy download en_core_web_sm
 
 RUN pip install nltk
+
+RUN pip install beautifulsoup4
