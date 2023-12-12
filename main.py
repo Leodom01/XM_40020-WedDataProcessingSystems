@@ -16,24 +16,27 @@ question_arr_relat.append("Is it named after the engineer Gustave Eiffel")#true
 #'https://en.wikipedia.org/wiki/Python_(programming_language)'
 # https://en.wikipedia.org/wiki/Eiffel_Tower
 
-wiki = input("Provide wiki link: ")
-print(f"You entered: {wiki}")
-returned_from_scraper=scraper.download_wiki_page(wiki)
-print(returned_from_scraper)
-print("--------------------------")
-
-returned_from_scraper_cleaned=re.sub(r'\[.*?\]', '', returned_from_scraper)#to remove stuff inside square brackets
-returned_from_scraper_cleaned=returned_from_scraper_cleaned.replace('"', '\\"')
-returned_from_scraper_cleaned=returned_from_scraper_cleaned.replace('\n', '')
-print(returned_from_scraper_cleaned)
-
-while True:
-    question = input("Provide question: ")
-    print(f"You entered: {question}")
-    attempt1.ner_on_question(question,wiki)
-
 
 """
 for question in question_arr_relat:
     attempt1.ner_on_question(question,wiki)
 """
+#----------------------------------------------
+
+print("SCRAPER--------------------------")
+
+wiki = input("Provide wiki link: ")
+print(f"You entered: {wiki}")
+returned_from_scraper=scraper.download_wiki_page(wiki)
+#print(returned_from_scraper)
+print("--------------------------")
+
+returned_from_scraper_cleaned=re.sub(r'\[.*?\]', '', returned_from_scraper)#to remove stuff inside square brackets
+returned_from_scraper_cleaned=returned_from_scraper_cleaned.replace('"', '\\"')
+returned_from_scraper_cleaned=returned_from_scraper_cleaned.replace('\n', '')
+#print(returned_from_scraper_cleaned)
+
+while True:
+    question = input("Provide question: ")
+    print(f"You entered: {question}")
+    attempt1.ner_on_question(question,returned_from_scraper_cleaned)
