@@ -23,11 +23,11 @@ def ner_on_question(question,wiki):
 
     doc_question = nlp(question)
 
-    print(f"Original section QUESTION: {question}-----------------------------------------------------")
+    print(f"Original section QUESTION: {question}")
     #print("Entities:")
 
     for entity in doc_question.ents:
-        print(entity.text, entity.label_)
+        ##print(entity.text, entity.label_)
         #print("\n")
         array_question_labels.append(entity.label_)
         array_question_content.append(lemmatized(entity.text))
@@ -41,11 +41,11 @@ def ner_on_question(question,wiki):
         
         doc = nlp(section)
 
-        print(f"Original section checking now: {section} -------------------")
-        print("Entities:")
+        ##print(f"Original section checking now: {section} -------------------")
+        ##print("Entities:")
 
         for entity in doc.ents:
-            print(entity.text, entity.label_)
+            ##print(entity.text, entity.label_)
             #print("\n")
             array_text_labels.append(entity.label_)
             array_text_content.append(lemmatized(entity.text))
@@ -53,6 +53,8 @@ def ner_on_question(question,wiki):
 
         if check_arrays(array_text_labels,array_question_labels):
             if check_arrays(array_text_content,array_question_content):
+                print("---------------------------------------------")
+                print("---------------------------------------------")
                 print("its a match")
                 print("ON Text")
                 print("array_text_content: "+str(array_text_content))
@@ -60,15 +62,17 @@ def ner_on_question(question,wiki):
                 print("ON Labels")
                 print("array_text_labels: "+str(array_text_labels))
                 print("array_question_labels: "+str(array_question_labels))
+                print("---------------------------------------------")
+                print("---------------------------------------------")
                 
-            else:
-                print("NO match content")
+            ##else:
+                ##print("NO match content")
                 #print("array_text_content"+str(array_text_content))
                 #print("array_question_content"+str(array_question_content))
                 
                 
-        else:
-            print("NO match labels")
+        ##else:
+            ##print("NO match labels")
 
 
 
