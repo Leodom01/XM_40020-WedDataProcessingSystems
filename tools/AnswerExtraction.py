@@ -1,19 +1,21 @@
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+# TODO: these models start downloading once they're used. perhaps better to download them once you create the container.
+
 def entity_answer_extraction(question, context):
     if context == '':
         return 'No answer from LLM'
-    model_name = "deepset/roberta-base-squad2"
 
+    model_name = "deepset/roberta-base-squad2"
     nlp = pipeline('question-answering', model=model_name, tokenizer=model_name)
     QA_input = {
         'question': question,
         'context': context
     }
     res = nlp(QA_input)
-    print(f"q={question},ans={context}:\n{res}")
-    # return res
+    return res
 
 def boolean_answer_extraction(question, context):
     if context == '':
@@ -30,13 +32,5 @@ def boolean_answer_extraction(question, context):
     probability_no = [round(prob[0], 2) for prob in probabilities]
     probability_yes = [round(prob[1], 2) for prob in probabilities]
 
-    print(f"q={question}|ans={context}:\nno={probability_no},yes={probability_yes}")
-    # print(f"Question: {question}")
-    # print(f"Context: {context}")
-    # print(f"p(No | question, context): {probability_no}")
-    # print(f"p(Yes | question, context): {probability_yes}")
-
-
-if __name__ == "__main__":
-    pass
+    return (probability_yes, probability_no)
 

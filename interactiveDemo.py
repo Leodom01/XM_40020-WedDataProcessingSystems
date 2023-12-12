@@ -2,7 +2,9 @@ from tools.PreProcessor import PreProcessor
 from tools.NER import NER
 from tools.OpenRE import OpenRE
 from llama_cpp import Llama
-
+import tools.QuestionClassification as qc
+import tools.AnswerExtraction as ae
+import tools.QuestionToStatement as qts
 # LLaMA setup
 model_path = "/home/user/models/llama-2-7b.Q4_K_M.gguf"
 llm = Llama(model_path=model_path, verbose=False)
@@ -12,7 +14,10 @@ while True:
     E = []
 
     # Input phase
-    prompt = "Q:" + input("Type your question:\n") + " A:"
+    user_question = input("Type your question:\n")
+
+    if user_question == 'brk': break # TODO: remove this if everything works well
+    prompt = "Q:" + user_question + " A:"
     print("Computing the answer (can take some time)...")
     R = llm(
         prompt,  # Prompt
@@ -39,11 +44,29 @@ while True:
     for ent in doc.ents:
         print(ent)
     print("==========================")
+    print("Extracted Answer:")
+    qType = qc.classify_question(user_question)
+    if qc.classify_question(user_question) == 'Boolean':
+        pyes, pno = ae.boolean_answer_extraction(user_question, R)
+        print(f"P(yes): {pyes}")
+        print(f"P(no): {pno}")
+    else:
+        extractedEnt = ae.entity_answer_extraction(user_question, R)
+        print(f"Answer extracted:{extractedEnt}")
 
+    print("==========================")
     print("Extracted relations:")
     # Open Relation extractions
     re = OpenRE()
-    triples = re.extract_relations_stanford(R)
+    re_input = ''
+    if qType == 'Boolean':
+        re_input = user_question
+    if qType == 'Entity':
+        re_input = qts.replace_wh_word_with_entity(user_question, extractedEnt['answer'])
+    if qType == 'Completion':
+        re_input = user_question + extractedEnt
+    print(f"Factual statement: {re_input}")
+    triples = re.extract_relations_stanford(re_input)
     for triple in triples:
         print(triple)
     print("==========================")

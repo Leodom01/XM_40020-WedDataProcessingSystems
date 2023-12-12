@@ -31,12 +31,3 @@ class OpenRE:
                     })
         return triples
 
-if __name__ == "__main__":
-    # pp = PreProcessor.PreProcessor()
-    text = 'Obama was born in Hawaii. Elon founded tesla. He also founded SpaceX'
-    # text = pp.coref(text)
-    OIE = OpenRE()
-    triples = OIE.extract_relations_stanford(text)
-    for triple in triples:
-        print(triple)
-
