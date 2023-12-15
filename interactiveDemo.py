@@ -43,7 +43,7 @@ while True:
     print("Named entities:")
     ner = NER(raw_text= user_question + ". " + R )
     doc = ner.ner_spacy()
-    for ent in doc.ents:
+    for ent in set(doc.ents):
         print(ent)
 
     print("==========================")

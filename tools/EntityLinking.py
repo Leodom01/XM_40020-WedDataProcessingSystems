@@ -6,7 +6,7 @@ import numpy as np
 
 class EntityLinker:
     def __init__(self):
-        self.model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
+        self.model = SentenceTransformer("/sharedFolder/entity_linking_model")
 
     def query_wikidata(self, search_term):
         sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
@@ -60,7 +60,7 @@ class EntityLinker:
             print(f"No matching candidates found for entity {named_entity}.")
             return
 
-        model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
+        model = SentenceTransformer("/sharedFolder/entity_linking_model")
 
         context = f"title: {named_entity}, description: {context}"
         context_embedding = model.encode(context)
@@ -75,7 +75,7 @@ class EntityLinker:
         similarities = cosine_similarity([context_embedding], candidate_embeddings)[0]
 
         most_relevant_index = np.argmax(similarities)
-        print(np.max(similarities))
+        # print(np.max(similarities))
 
         return candidates[most_relevant_index]
 
