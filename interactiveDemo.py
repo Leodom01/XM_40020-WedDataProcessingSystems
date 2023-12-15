@@ -4,7 +4,9 @@ from tools.OpenRE import OpenRE
 from llama_cpp import Llama
 import tools.QuestionClassification as qc
 import tools.AnswerExtraction as ae
+from tools.EntityLinking import EntityLinker
 import tools.QuestionToStatement as qts
+import tools.FactChecking as fc
 # LLaMA setup
 model_path = "/home/user/models/llama-2-7b.Q4_K_M.gguf"
 llm = Llama(model_path=model_path, verbose=False)
@@ -39,10 +41,24 @@ while True:
 
     # Named entity recognition - temporarily using spacy
     print("Named entities:")
-    ner = NER(raw_text=R)
+    ner = NER(raw_text= user_question + ". " + R )
     doc = ner.ner_spacy()
     for ent in doc.ents:
         print(ent)
+
+    print("==========================")
+    print("Entities link:")
+    entityLinker = EntityLinker()
+    entities = []
+    for sent in doc.sents:
+        for entity in sent.ents:
+            name = entity
+            link = entityLinker.run_linking(R, name)
+            print(link)
+            entities.append({'name': name, 'link': link})
+    for entity in entities:
+        print(entity["name"], " : ", entity['link'])
+
     print("==========================")
     print("Extracted Answer:")
     qType = qc.classify_question(user_question)
@@ -65,11 +81,19 @@ while True:
         re_input = qts.replace_wh_word_with_entity(user_question, extractedEnt['answer'])
     if qType == 'Completion':
         re_input = user_question + extractedEnt
+
+    re_input = re.statement_with_wikidatIDs(re_input, entities)
     print(f"Factual statement: {re_input}")
     triples = re.extract_relations_stanford(re_input)
     for triple in triples:
         print(triple)
     print("==========================")
+
+    print(re.find_best_triple(triples))
+    mainTriple = re.find_best_triple(triples)
+    print(fc.check_relationship(mainTriple['subject'], mainTriple['relation'], mainTriple['object']))
+
+
 
 
 

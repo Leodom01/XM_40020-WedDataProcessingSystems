@@ -1,6 +1,6 @@
 from stanza.server import CoreNLPClient
 import os
-
+import re
 corenlp_home = os.path.abspath(os.path.join(os.path.dirname(__file__), '../stanza_corenlp'))
 os.environ['CORENLP_HOME'] = corenlp_home
 # import PreProcessor
@@ -30,4 +30,29 @@ class OpenRE:
                         'object': triple['object']
                     })
         return triples
+
+    def is_wikidata_entity(self, text):
+        pattern = r'^Q\d+$'
+        return bool(re.match(pattern, text))
+
+    def statement_with_wikidatIDs(self, fact_statement, ent_list):
+        input_string = fact_statement
+        for word_dict in ent_list:
+            name = word_dict['name']
+            link = word_dict['link']
+            input_string = input_string.replace(str(name), link.split('/')[-1])
+        if input_string == None:
+            return fact_statement
+        else:
+            return input_string
+
+    def find_best_triple(self, triples):
+        trpl = ''
+        max_len = 0
+        for triple in triples:
+            if self.is_wikidata_entity(triple['subject']) and self.is_wikidata_entity(triple['object']):
+                if len(triple['relation']) >= max_len:
+                    trpl = triple
+
+        return trpl
 

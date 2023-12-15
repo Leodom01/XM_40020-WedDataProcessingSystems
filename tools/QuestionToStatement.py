@@ -1,6 +1,7 @@
 import nltk
 from nltk import word_tokenize, pos_tag
 from nltk.tree import Tree
+import re
 
 # TODO: not fully tested, there could be alot of cases where this does not work. Implement a better solution, low priority
 
@@ -42,6 +43,8 @@ def replace_wh_word_with_entity(question, entity):
         return replaced_question
     else:
         return "No WH-word found in the question"
+
+
 
 
 if __name__ == "__main__":

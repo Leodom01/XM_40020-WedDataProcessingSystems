@@ -126,8 +126,8 @@ def check_relationship(entity_id, relationship, subject_id):
 # print("Is declaration of independence signed in 1776", end=": ")
 # print(check_relationship("Q127912", "date signed", "1776"))
 
-print("Did Shakespear write the Romeo and Julliet?", end=": ")
-print(check_relationship("Q83186", "writer", "Shakespear"))
+# print("Did Shakespear write the Romeo and Julliet?", end=": ")
+# print(check_relationship("Q83186", "writer", "Shakespear"))
 
 # properties = query_entity_properties("Q127912")
 

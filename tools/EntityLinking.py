@@ -82,11 +82,14 @@ class EntityLinker:
     def run_linking(self, context, named_entity):
         most_relevant_entity = self.link_entity(context, named_entity)
         if most_relevant_entity:
-            print(f"Relevant Entity on Wikidata for {context}:")
-            print(f"Item: {most_relevant_entity['Item']}")
-            print(f"Label: {most_relevant_entity['Label']}")
-            print(f"Description: {most_relevant_entity['Description']}")
-            print(f"+----------------------------+")
+            # print(f"Relevant Entity on Wikidata for {context}:")
+            # print(f"Item: {most_relevant_entity['Item']}")
+            # print(f"Label: {most_relevant_entity['Label']}")
+            # print(f"Description: {most_relevant_entity['Description']}")
+            # print(f"+----------------------------+")
+            return most_relevant_entity['Item']
+        else:
+            return "Item not found"
 
 
 # Example usage
