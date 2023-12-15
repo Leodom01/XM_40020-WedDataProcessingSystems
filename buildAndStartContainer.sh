@@ -5,6 +5,7 @@ curl -OJL "https://huggingface.co/stanfordnlp/CoreNLP/resolve/main/stanford-core
 unzip -o stanford-corenlp-latest.zip >/dev/null
 mv stanford-corenlp-4.5.5 stanza_corenlp >/dev/null
 unzip -o nltk_data.zip >/dev/null
+git lfs clone https://huggingface.co/sentence-transformers/all-mpnet-base-v2 entity_linking_model
 
 # Build Docker image
 docker build -t llama_fact_checker:latest .

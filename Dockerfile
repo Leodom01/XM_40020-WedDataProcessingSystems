@@ -5,14 +5,12 @@ WORKDIR /sharedFolder
 COPY . /sharedFolder
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
+RUN pip install spacy
 
 RUN sudo apt -y update >/dev/null
-RUN sudo apt install -y default-jre git-lfs>/dev/null
-
-# Check if the directory is empty (the model could be taken from the shared folder)
-RUN if [ -z "$(ls -A /sharedFolder/entity_linker_model)" ]; then \
-      git clone https://huggingface.co/sentence-transformers/all-mpnet-base-v2 /sharedFolder/entity_linker_model; \
-    fi
+RUN sudo apt install -y default-jre>/dev/null
+RUN sudo apt install -y git-lfs>/dev/null
+RUN git lfs install
 
 ENV NLTK_DATA=/sharedFolder/nltk_data
 ENV CORENLP_HOME=/sharedFolder/stanza_corenlp
