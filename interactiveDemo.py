@@ -91,7 +91,22 @@ while True:
 
     print(re.find_best_triple(triples))
     mainTriple = re.find_best_triple(triples)
-    print(fc.check_relationship(mainTriple['subject'], mainTriple['relation'], mainTriple['object']))
+    fact_check_res = fc.check_relationship(mainTriple['subject'], mainTriple['relation'], mainTriple['object'])
+
+    print(fact_check_res)
+
+
+    if qType == 'Boolean':
+        if (pyes > pno and fact_check_res == True) or (pyes < pno and fact_check_res == False):
+            print('CORRECT')
+        else:
+            print('INCORRECT')
+
+    if qType == 'Entity' or qType == 'Completion':
+        if fact_check_res == True:
+            print('CORRECT')
+        else:
+            print("INCORRECT")
 
 
 
