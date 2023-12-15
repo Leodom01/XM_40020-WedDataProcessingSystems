@@ -6,7 +6,7 @@ import numpy as np
 
 class EntityLinker:
     def __init__(self):
-        self.model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
+        self.model = SentenceTransformer("/sharedFolder/entity_linker_model")
 
     def query_wikidata(self, search_term):
         sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
@@ -60,7 +60,7 @@ class EntityLinker:
             print(f"No matching candidates found for entity {named_entity}.")
             return
 
-        model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
+        model = SentenceTransformer("/sharedFolder/entity_linker_model")
 
         context = f"title: {named_entity}, description: {context}"
         context_embedding = model.encode(context)
@@ -75,18 +75,21 @@ class EntityLinker:
         similarities = cosine_similarity([context_embedding], candidate_embeddings)[0]
 
         most_relevant_index = np.argmax(similarities)
-        print(np.max(similarities))
+        # print(np.max(similarities))
 
         return candidates[most_relevant_index]
 
     def run_linking(self, context, named_entity):
         most_relevant_entity = self.link_entity(context, named_entity)
         if most_relevant_entity:
-            print(f"Relevant Entity on Wikidata for {context}:")
-            print(f"Item: {most_relevant_entity['Item']}")
-            print(f"Label: {most_relevant_entity['Label']}")
-            print(f"Description: {most_relevant_entity['Description']}")
-            print(f"+----------------------------+")
+            # print(f"Relevant Entity on Wikidata for {context}:")
+            # print(f"Item: {most_relevant_entity['Item']}")
+            # print(f"Label: {most_relevant_entity['Label']}")
+            # print(f"Description: {most_relevant_entity['Description']}")
+            # print(f"+----------------------------+")
+            return most_relevant_entity['Item']
+        else:
+            return "Item not found"
 
 
 # Example usage

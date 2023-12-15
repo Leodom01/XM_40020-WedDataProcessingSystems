@@ -1,3 +1,4 @@
+from tools.EntityLinking import EntityLinker
 from tools.PreProcessor import PreProcessor
 from tools.NER import NER
 from tools.OpenRE import OpenRE
@@ -32,17 +33,31 @@ while True:
     print("==========================")
 
     #Pre processing phase
+    # IT IS NOT NEEDED
     preProc = PreProcessor(R)
     print("Pre processed: ", preProc.pipeline())
     print("==========================")
 
 
-    # Named entity recognition - temporarily using spacy
+    # Named entity recognition
     print("Named entities:")
     ner = NER(raw_text=R)
     doc = ner.ner_spacy()
-    for ent in doc.ents:
+    for ent in set(doc.ents):
         print(ent)
+
+    print("==========================")
+    print("Entities link:")
+    entityLinker = EntityLinker()
+    entities = []
+    for entity in set(doc.ents):
+        name = entity
+        link = entityLinker.run_linking(R, name)
+        entities.append({'name': name, 'link': link})
+
+    for entity in entities:
+        print(entity["name"], " : ", entity['link'])
+
     print("==========================")
     print("Extracted Answer:")
     qType = qc.classify_question(user_question)
