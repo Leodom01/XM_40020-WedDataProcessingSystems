@@ -10,6 +10,16 @@ logging.getLogger("tensorflow").setLevel(logging.ERROR)
 
 
 def query_entity_properties(entity_id):
+    """
+    Queries and returns the properties of a Wikidata entity.
+
+    Parameters:
+    - entity_id (str): Wikidata entity ID (e.g., "Q1").
+
+    Returns:
+    - dict: A dictionary of properties and their values for the given entity.
+    """
+
     sparql = SPARQLWrapper(
         "https://query.wikidata.org/sparql", agent="OlafJanssen from PAWS"
     )
@@ -46,6 +56,17 @@ def query_entity_properties(entity_id):
 
 
 def get_most_similar_property(query, properties):
+    """
+    Finds the most similar property to the given query using sentence embeddings.
+
+    Parameters:
+    - query (str): The query string to compare against.
+    - properties (dict): A dictionary of properties.
+
+    Returns:
+    - tuple: A tuple containing the most similar property and its values.
+    """
+
     embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
 
     query_embedding = embed([query])[0]
@@ -60,10 +81,29 @@ def get_most_similar_property(query, properties):
 
 
 def is_entity(value):
+    """
+    Checks if a given value is a Wikidata entity ID.
+
+    Parameters:
+    - value (str): The value to check.
+
+    Returns:
+    - bool: True if the value matches the Wikidata entity ID pattern, False otherwise.
+    """
     return bool(re.match(r"Q\d+", value))
 
 
 def get_entity_label(entity_id):
+    """
+    Retrieves the label of a Wikidata entity in English.
+
+    Parameters:
+    - entity_id (str): The Wikidata entity ID.
+
+    Returns:
+    - str or None: The label of the entity, or None if not found.
+    """
+
     sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
     query = f"""
     SELECT ?label WHERE {{
@@ -82,6 +122,18 @@ def get_entity_label(entity_id):
 
 
 def check_relationship(entity_id, relationship, subject_id):
+    """
+    Checks if a specified relationship exists between two entities.
+
+    Parameters:
+    - entity_id (str): The Wikidata entity ID.
+    - relationship (str): The relationship to check.
+    - subject_id (str): The subject entity ID or name.
+
+    Returns:
+    - bool: True if the relationship exists, False otherwise.
+    """
+
     properties = query_entity_properties(entity_id)
     most_similar_property, values = get_most_similar_property(relationship, properties)
 

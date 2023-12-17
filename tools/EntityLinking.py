@@ -9,6 +9,16 @@ class EntityLinker:
         self.model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
 
     def query_wikidata(self, search_term):
+        """
+        Queries Wikidata for entities matching the given search term.
+
+        Parameters:
+        - search_term (str): The term to search for in Wikidata.
+
+        Returns:
+        - list: A list of formatted results containing Wikidata entity information.
+        """
+
         sparql = SPARQLWrapper(
             "https://query.wikidata.org/sparql", agent="Aynaz from UvA"
         )
@@ -58,6 +68,17 @@ class EntityLinker:
         return formatted_results
 
     def link_entity(self, context, named_entity):
+        """
+        Finds the most relevant Wikidata entity for a given named entity and context.
+
+        Parameters:
+        - context (str): The context in which the named entity is mentioned.
+        - named_entity (str): The named entity to be linked.
+
+        Returns:
+        - dict: The most relevant Wikidata entity, or None if no match is found.
+        """
+
         candidates = self.query_wikidata(named_entity)
 
         if not candidates:
@@ -79,27 +100,12 @@ class EntityLinker:
         similarities = cosine_similarity([context_embedding], candidate_embeddings)[0]
 
         most_relevant_index = np.argmax(similarities)
-        # print(np.max(similarities))
 
         return candidates[most_relevant_index]
 
-    def run_linking(self, context, named_entity):
-        most_relevant_entity = self.link_entity(context, named_entity)
-        if most_relevant_entity:
-            print(f"Relevant Entity on Wikidata for {context}:")
-            print(f"Item: {most_relevant_entity['Item']}")
-            print(f"Label: {most_relevant_entity['Label']}")
-            print(f"Description: {most_relevant_entity['Description']}")
-            print(f"Sitelink Count: {most_relevant_entity['Sitelink Count']}")
-            print(f"+----------------------------+")
-            return most_relevant_entity["Item"]
-        else:
-            return "Item not found"
 
-
-# Example usage
 if __name__ == "__main__":
     linker = EntityLinker()
     context = "Does lebron james play in the lakers"
     named_entity = "lebron james"
-    linker.run_linking(context, named_entity)
+    linker.link_entity(context, named_entity)

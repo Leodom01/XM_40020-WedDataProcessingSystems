@@ -1,8 +1,16 @@
-from SPARQLWrapper import SPARQLWrapper, JSON
+def wikidata_to_wikipedia(wikidata_id):
+    """
+    Fetches the Wikipedia URL for a given Wikidata ID.
 
+    Parameters:
+    - wikidata_id (str): Wikidata entity ID.
 
-def wikidata_to_wikipedia(wikidata_id, language="en"):
+    Returns:
+    - str: Wikipedia article URL in English or a not-found message.
+    """
     sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
+
+    language = "en"
 
     query = """
     SELECT ?article WHERE {
@@ -26,8 +34,3 @@ def wikidata_to_wikipedia(wikidata_id, language="en"):
         return results["results"]["bindings"][0]["article"]["value"]
     else:
         return "No Wikipedia article found for this Wikidata ID"
-
-
-wikidata_id = "Q12418"
-wikipedia_url = wikidata_to_wikipedia(wikidata_id)
-print(wikipedia_url)
