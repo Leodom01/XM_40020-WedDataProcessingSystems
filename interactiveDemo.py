@@ -144,5 +144,6 @@ while True:
 
 def write_it_also_in_csv(C):
     print("received"+C)
+    #write in csv
     
 
