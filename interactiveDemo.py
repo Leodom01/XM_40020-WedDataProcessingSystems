@@ -64,8 +64,12 @@ while True:
             link = entityLinker.run_linking(punc_free_sent, str(name))
             entities.append({'name': name, 'link': link})
     E = entities
+    entities_set = set()
     for entity in entities:
-        print(entity["name"], " : ", entity['link'])
+        entities_set.add((entity["name"].lower(), entity['link']))
+
+    for entity in entities_set:
+        print(entity[0], " : ", entity[0])
 
     print("==========================")
     print("Extracted Answer:")
