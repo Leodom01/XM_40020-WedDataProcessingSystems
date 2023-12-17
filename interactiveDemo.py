@@ -9,7 +9,7 @@ import tools.QuestionToStatement as qts
 import tools.FactChecking as fc
 import tools.LoadTestData as ltd
 import pandas as pd
-
+import tools.utils as utils
 # LLaMA setup
 model_path = "/home/user/models/llama-2-7b.Q4_K_M.gguf"
 llm = Llama(model_path=model_path, verbose=False)
@@ -34,7 +34,7 @@ while True:
 
     def main_section(user_question, user_choice):
         if user_question == "brk":
-            break  # TODO: remove this if everything works well
+            return  # TODO: remove this if everything works well
         prompt = "Q:" + user_question + " A:"
         print("Computing the answer (can take some time)...")
         R = llm(
@@ -113,16 +113,16 @@ while True:
         if qType == "Completion":
             re_input = user_question + str(extracted_ent["name"])
         print(f"Factual statement: {re_input}")
-        wikiID_fact_statement = re.statement_with_wikidatIDs(re_input, entities)
+        wikiID_fact_statement = utils.statement_with_wikidatIDs(re_input, entities)
         triples = re.extract_relations_stanford(wikiID_fact_statement)
         print("All the triples extracted:")
         for triple in triples:
             print(triple)
-        mainTriple = re.find_best_triple(triples)
+        mainTriple = utils.find_best_triple(triples)
         print("Triple chosen for fact checking:")
         print(mainTriple)
         if mainTriple is None:
-            continue
+            return
         fact_check_res = fc.check_relationship(
             mainTriple["subject"], mainTriple["relation"], mainTriple["object"]
         )
