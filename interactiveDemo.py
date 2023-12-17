@@ -27,7 +27,7 @@ while True:
         user_question = input("Type your question:\n")
         main_section(user_question, user_choice)
     else:
-        df = pd.read_csv("questions.csv")
+        df = pd.read_csv("questions_and_plotting/questions.csv")
         for cell in df["Question"]:
             print("Testing question" + cell)
             main_section(cell, user_choice)
