@@ -10,8 +10,9 @@ class EntityLinker:
 
     def query_wikidata(self, search_term):
         sparql = SPARQLWrapper(
-            "https://query.wikidata.org/sparql", agent="OlafJanssen from PAWS"
+            "https://query.wikidata.org/sparql", agent="Aynaz from UvA"
         )
+
         query = (
             """
             SELECT ?item ?itemLabel ?itemDescription (COUNT(DISTINCT ?sitelink) AS ?linkCount) WHERE {
@@ -29,7 +30,7 @@ class EntityLinker:
             }
             GROUP BY ?item ?itemLabel ?itemDescription
             ORDER BY DESC(?linkCount)
-            LIMIT 50
+            LIMIT 10
             """
             % search_term
         )
@@ -41,16 +42,18 @@ class EntityLinker:
 
         formatted_results = []
         for result in results["results"]["bindings"]:
-            formatted_results.append(
-                {
-                    "Item": result["item"]["value"],
-                    "Label": result.get("itemLabel", {}).get("value", "No label"),
-                    "Description": result.get("itemDescription", {}).get(
-                        "value", "No description"
-                    ),
-                    "Sitelink Count": result["linkCount"]["value"],
-                }
-            )
+            linkCount = int(result["linkCount"]["value"])
+            if linkCount > 3:
+                formatted_results.append(
+                    {
+                        "Item": result["item"]["value"],
+                        "Label": result.get("itemLabel", {}).get("value", "No label"),
+                        "Description": result.get("itemDescription", {}).get(
+                            "value", "No description"
+                        ),
+                        "Sitelink Count": result["linkCount"]["value"],
+                    }
+                )
 
         return formatted_results
 
@@ -83,12 +86,13 @@ class EntityLinker:
     def run_linking(self, context, named_entity):
         most_relevant_entity = self.link_entity(context, named_entity)
         if most_relevant_entity:
-            # print(f"Relevant Entity on Wikidata for {context}:")
-            # print(f"Item: {most_relevant_entity['Item']}")
-            # print(f"Label: {most_relevant_entity['Label']}")
-            # print(f"Description: {most_relevant_entity['Description']}")
-            # print(f"+----------------------------+")
-            return most_relevant_entity['Item']
+            print(f"Relevant Entity on Wikidata for {context}:")
+            print(f"Item: {most_relevant_entity['Item']}")
+            print(f"Label: {most_relevant_entity['Label']}")
+            print(f"Description: {most_relevant_entity['Description']}")
+            print(f"Sitelink Count: {most_relevant_entity['Sitelink Count']}")
+            print(f"+----------------------------+")
+            return most_relevant_entity["Item"]
         else:
             return "Item not found"
 
@@ -96,6 +100,6 @@ class EntityLinker:
 # Example usage
 if __name__ == "__main__":
     linker = EntityLinker()
-    context = "Does lebron james play for lakers?"
-    named_entity = "lakers"
-    print(linker.run_linking(context, named_entity))
+    context = "Does lebron james play in the lakers"
+    named_entity = "lebron james"
+    linker.run_linking(context, named_entity)
