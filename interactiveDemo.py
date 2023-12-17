@@ -69,7 +69,7 @@ while True:
         entities_set.add((entity["name"].lower(), entity['link']))
 
     for entity in entities_set:
-        print(entity[0], " : ", entity[0])
+        print(entity[0], " : ", entity[1])
 
     print("==========================")
     print("Extracted Answer:")
