@@ -34,3 +34,7 @@ def boolean_answer_extraction(question, context):
 
     return (probability_yes, probability_no)
 
+def extract_entity(ans, entities):
+    for ent in entities:
+        if str(ent['name']) in ans:
+            return ent

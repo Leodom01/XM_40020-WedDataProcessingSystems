@@ -39,7 +39,7 @@ def replace_wh_word_with_entity(question, entity):
 
     if wh_word:
         # Replace the WH-word with the provided entity
-        replaced_question = question.replace(wh_word, entity)
+        replaced_question = question.replace(wh_word, str(entity))
         return replaced_question
     else:
         return "No WH-word found in the question"

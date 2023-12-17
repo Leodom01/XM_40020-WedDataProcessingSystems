@@ -3,6 +3,7 @@ from nltk.stem import PorterStemmer, WordNetLemmatizer
 from stanza.server import CoreNLPClient
 import spacy
 from nltk import ne_chunk, pos_tag
+import string
 class PreProcessor:
     def __init__(self, text_to_preprocess=""):
         self.text_to_preprocess = text_to_preprocess
@@ -43,6 +44,10 @@ class PreProcessor:
         stemmer = PorterStemmer()
         stemmed_text = [stemmer.stem(word) for word in self.tokenized_text]
         return stemmed_text
+
+    def remove_punctuation(self, text):
+        translator = str.maketrans('', '', string.punctuation)
+        return text.translate(translator)
 
     def pipeline(self):
         # We think stemming could work worse

@@ -1,6 +1,28 @@
 # simple utility functions to load the test data
-
 import json
+
+
+def load_data(input_path):
+    data = {}
+    with open(input_path) as openfileobject:
+        for line in openfileobject:
+            prts = line.rstrip().split('\t')
+            data[prts[0]] = {
+                'Q': prts[1]
+            }
+        openfileobject.close()
+    return data
+def output(data, out_path):
+    with open(out_path, 'w') as fw:
+        for qID in data.keys():
+            fw.write(f"{qID}\tR\"{data[qID]['R']}\n")
+            fw.write(f"{qID}\tA\"{data[qID]['A']}\n")
+            fw.write(f"{qID}\tC\"{data[qID]['C']}\n")
+            for ent in data[qID]['E']:
+                fw.write(f"{qID}\tE\"{ent['name']}\t{ent['link']}\n")
+
+
+
 def fixtestformat(): # IGNORE this function
     data = {}
     with open('../task_data/example_in.txt') as openfileobject:
@@ -42,33 +64,29 @@ def fixtestformat(): # IGNORE this function
 
     print(data)
 
-def load_data(path_in, path_out):
-    data = {}
-    with open(path_in) as openfileobject:
-        for line in openfileobject:
-            prts = line.rstrip().split('\t')
-            data[prts[0]] = {
-                'Q':prts[1][1:-1],
-                'R':'',
-                'A':'',
-                'C':'',
-                'E':[]
-            }
-        openfileobject.close()
-    with open(path_out) as openfileobject:
-        for line in openfileobject:
-            prts = line.rstrip().split('\t')
-            if prts[1][0] == 'R':
-                data[prts[0]]['R'] = prts[1][2:-1]
-            if prts[1][0] == 'A':
-                data[prts[0]]['A'] = prts[1][2:-1]
-            if prts[1][0] == 'C':
-                data[prts[0]]['C'] = prts[1][2:-1]
-            if prts[1][0] == 'E':
-                entlist = data[prts[0]]['E']
-                entlist.append(prts[1][2:-1])
-                data[prts[0]]['E'] = entlist
-    return data
+# def load_data(path_in, path_out):
+#     data = {}
+#     with open(path_in) as openfileobject:
+#         for line in openfileobject:
+#             prts = line.rstrip().split('\t')
+#             data[prts[0]] = {
+#                 'Q':prts[1]
+#             }
+#         openfileobject.close()
+#     with open(path_out) as openfileobject:
+#         for line in openfileobject:
+#             prts = line.rstrip().split('\t')
+#             if prts[1][0] == 'R':
+#                 data[prts[0]]['R'] = prts[1][2:-1]
+#             if prts[1][0] == 'A':
+#                 data[prts[0]]['A'] = prts[1][2:-1]
+#             if prts[1][0] == 'C':
+#                 data[prts[0]]['C'] = prts[1][2:-1]
+#             if prts[1][0] == 'E':
+#                 entlist = data[prts[0]]['E']
+#                 entlist.append(prts[1][2:-1])
+#                 data[prts[0]]['E'] = entlist
+#     return data
 
 def loadFreebaseQA(path):
     f = open(path)

@@ -11,24 +11,23 @@ Python wrapper https://github.com/philipperemy/stanford-openie-python
 '''
 class OpenRE:
     def __init__(self):
+        self.client = CoreNLPClient(
+            annotators=['openie'],
+            timeout=30000,
+            memory='6G',
+            be_quiet=True)
         # stanza.install_corenlp()
-        pass
 
     def extract_relations_stanford(self, text):
-        with CoreNLPClient(
-                annotators=['openie'],
-                timeout=30000,
-                memory='6G',
-                be_quiet = True) as client:
-            document = client.annotate(text, output_format='json')
-            triples = []
-            for sentence in document['sentences']:
-                for triple in sentence['openie']:
-                    triples.append({
-                        'subject': triple['subject'],
-                        'relation': triple['relation'],
-                        'object': triple['object']
-                    })
+        document = self.client.annotate(text, output_format='json')
+        triples = []
+        for sentence in document['sentences']:
+            for triple in sentence['openie']:
+                triples.append({
+                    'subject': triple['subject'],
+                    'relation': triple['relation'],
+                    'object': triple['object']
+                })
         return triples
 
     def is_wikidata_entity(self, text):
@@ -47,7 +46,7 @@ class OpenRE:
             return input_string
 
     def find_best_triple(self, triples):
-        trpl = ''
+        trpl = None
         max_len = 0
         for triple in triples:
             if self.is_wikidata_entity(triple['subject']) and self.is_wikidata_entity(triple['object']):

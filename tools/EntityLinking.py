@@ -9,8 +9,9 @@ class EntityLinker:
         self.model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
 
     def query_wikidata(self, search_term):
-        sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
-
+        sparql = SPARQLWrapper(
+            "https://query.wikidata.org/sparql", agent="OlafJanssen from PAWS"
+        )
         query = (
             """
             SELECT ?item ?itemLabel ?itemDescription (COUNT(DISTINCT ?sitelink) AS ?linkCount) WHERE {
@@ -95,6 +96,6 @@ class EntityLinker:
 # Example usage
 if __name__ == "__main__":
     linker = EntityLinker()
-    context = "I love second studio album by Queen"
-    named_entity = "Queen"
-    linker.run_linking(context, named_entity)
+    context = "Does lebron james play for lakers?"
+    named_entity = "lakers"
+    print(linker.run_linking(context, named_entity))

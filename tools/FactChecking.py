@@ -10,8 +10,9 @@ logging.getLogger("tensorflow").setLevel(logging.ERROR)
 
 
 def query_entity_properties(entity_id):
-    sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
-
+    sparql = SPARQLWrapper(
+        "https://query.wikidata.org/sparql", agent="OlafJanssen from PAWS"
+    )
     query = f"""
     SELECT ?propertyLabel ?value ?valueLabel WHERE {{
       wd:{entity_id} ?p ?statement .
