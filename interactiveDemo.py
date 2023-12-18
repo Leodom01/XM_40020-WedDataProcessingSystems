@@ -16,7 +16,11 @@ llm = Llama(model_path=model_path, verbose=False)
 
 re = OpenRE()
 
-def main_section(user_question, user_choice,df):
+def write_it_also_in_csv(C,df):
+    #print("received" + C)
+    df["Predicted"]=C
+
+def main_section(user_question, user_choice,df,R,A,C,E):
     if user_question == "brk":
         return  # TODO: remove this if everything works well
     prompt = "Q:" + user_question + " A:"
@@ -136,12 +140,6 @@ def main_section(user_question, user_choice,df):
         if user_choice != "I":
             write_it_also_in_csv(C,df)
 
-def write_it_also_in_csv(C,df):
-    print("received" + C)
-    df["Predicted"]=C
-    #write in column Predicted
-    # write in csv
-
 while True:
     R = A = C = ""
     E = []
@@ -151,12 +149,12 @@ while True:
     )
     if user_choice == "I":
         user_question = input("Type your question:\n")
-        main_section(user_question, user_choice,0)
+        main_section(user_question, user_choice,0,R,A,C,E)
     else:
         df = pd.read_csv("questions_and_plotting/questions.csv")
         for cell in df["Question"]:
             print("Testing question" + cell)
-            main_section(cell, user_choice,df)
+            main_section(cell, user_choice,df,R,A,C,E)
         df.to_csv("questions_and_plotting/questions.csv", index=False)
 
     
