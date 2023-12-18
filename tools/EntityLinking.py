@@ -6,7 +6,7 @@ import numpy as np
 
 class EntityLinker:
     def __init__(self):
-        self.model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
+        self.model = SentenceTransformer("/sharedFolder/models/entity_linking_model")
 
     def query_wikidata(self, search_term):
         """
@@ -85,7 +85,7 @@ class EntityLinker:
             print(f"No matching candidates found for entity {named_entity}.")
             return
 
-        model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
+        model = SentenceTransformer("/sharedFolder/models/entity_linking_model")
 
         context = f"title: {named_entity}, description: {context}"
         context_embedding = model.encode(context)

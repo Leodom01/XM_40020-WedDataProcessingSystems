@@ -8,7 +8,7 @@ def entity_answer_extraction(question, context):
     if context == '':
         return 'No answer from LLM'
 
-    model_name = "deepset/roberta-base-squad2"
+    model_name = "/sharedFolder/models/entity_answer_extraction_model"
     nlp = pipeline('question-answering', model=model_name, tokenizer=model_name)
     QA_input = {
         'question': question,
@@ -20,8 +20,8 @@ def entity_answer_extraction(question, context):
 def boolean_answer_extraction(question, context):
     if context == '':
         return 'No answer from LLM'
-    model = AutoModelForSequenceClassification.from_pretrained("nfliu/roberta-large_boolq")
-    tokenizer = AutoTokenizer.from_pretrained("nfliu/roberta-large_boolq")
+    model = AutoModelForSequenceClassification.from_pretrained("models/boolean_answer_extraction_model")
+    tokenizer = AutoTokenizer.from_pretrained("models/boolean_answer_extraction_model")
 
     encoded_input = tokenizer([(question, context)], padding=True, truncation=True, return_tensors="pt")
 

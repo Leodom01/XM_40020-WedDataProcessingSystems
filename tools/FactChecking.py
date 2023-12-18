@@ -154,35 +154,3 @@ def check_relationship(entity_id, relationship, subject_id):
 
     return False
 
-
-# print("Is Managua the capital of Nicaragua?", end=": ")
-# print(check_relationship("Q811", "capital", "Q3274"))
-
-# print("Is Biden the current president of US?", end=": ")
-# print(check_relationship("Q30", "current president", "Q6279"))
-
-# print("Is Obama the current president of US?", end=": ")
-# print(check_relationship("Q30", "current president", "Q76"))
-
-# print("Is Jupiter the largest planet in solar system?", end=": ")
-# print(check_relationship("Q544", "largest planet", "Q319"))
-
-# print("Is da Vinci the painter of Mona Lisa?", end=": ")
-# print(check_relationship("Q12418", "painter", "Q762"))
-
-# print("Is Tokyo the capital of Japan?", end=": ")
-# print(check_relationship("Q17", "capital", "Q1490"))
-
-# print("Did Shakespear write the Romeo and Julliet?", end=": ")
-# print(check_relationship("Q83186", "writer", "Q692"))
-
-# print("Is declaration of independence signed in 1776", end=": ")
-# print(check_relationship("Q127912", "date signed", "1776"))
-
-# print("Did Shakespear write the Romeo and Julliet?", end=": ")
-# print(check_relationship("Q83186", "writer", "Shakespear"))
-
-# properties = query_entity_properties("Q127912")
-
-# for prop, values in properties.items():
-#     print(f"{prop}:\n\t{', '.join(values)}\n{'-'*40}")
