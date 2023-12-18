@@ -1,21 +1,31 @@
-# TODO: implement a more sophisticated approach for question classification
-# Boolean questions require yes/no answers, starting with is, are, do, does, etc.
-# Entity questions usually contain wh words. What, where, whose, etc.
-# Completion questions, like entity questions, require an entity in answer.
+import spacy
+"""
+This module classifies the input questions
+"""
 def classify_question(question):
+    """
+    Classifies a given question based on keywords present in the question.
+
+    Parameters:
+    question (str): The input question to be classified.
+
+    Returns:
+    str: A string representing the category of the question.
+         Possible values:
+         - 'Boolean' if the question starts with a boolean keyword.
+         - 'Entity' if the question contains wh words.
+         - 'Completion' if the question doesn't match the above criteria.
+    """
+    nlp = spacy.load("en_core_web_sm")
+    doc = nlp(question)
+
+    entity_keywords = ['who', 'what', 'where', 'when', 'why', 'which', 'whom', 'whose']
     boolean_keywords = ['is', 'are', 'do', 'does', 'can', 'will', 'could', 'should',
                         'would', 'has', 'have', 'yes', 'no', 'was', 'were', 'did', 'may']
-    entity_keywords = ['who', 'what', 'where', 'when', 'why', 'which', 'whom', 'whose']
-
-    words = question.lower().split()
-
-    for word in words:
-        if word in boolean_keywords:
-            return 'Boolean'
-        elif word in entity_keywords:
+    if doc[0].text.lower() in boolean_keywords:
+        return 'Boolean'
+    # Iterate through tokens in the sentence
+    for token in doc:
+        if token.text.lower() in entity_keywords:
             return 'Entity'
-
     return 'Completion'
-
-if __name__ == "__main__":
-    pass
