@@ -76,14 +76,14 @@ class EntityLinker:
         - named_entity (str): The named entity to be linked.
 
         Returns:
-        - dict: The most relevant Wikidata entity, or None if no match is found.
+        - URL: The most relevant Wikipedia article, or None if no match is found.
         """
 
         candidates = self.query_wikidata(named_entity)
 
         if not candidates:
             print(f"No matching candidates found for entity {named_entity}.")
-            return
+            return None
 
         model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
 
@@ -101,7 +101,48 @@ class EntityLinker:
 
         most_relevant_index = np.argmax(similarities)
 
-        return candidates[most_relevant_index]['Item']
+        candidate_wikidata_ID = candidates[most_relevant_index]['Item'].split('/')[-1]
+
+
+        return (candidate_wikidata_ID ,self.wikidata_to_wikipedia(candidate_wikidata_ID))
+
+    def wikidata_to_wikipedia(self, wikidata_id):
+        """
+        Fetches the Wikipedia URL for a given Wikidata ID.
+
+        Parameters:
+        - wikidata_id (str): Wikidata entity ID.
+
+        Returns:
+        - str: Wikipedia article URL in English or a not-found message.
+        """
+        sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
+
+        language = "en"
+
+        query = """
+        SELECT ?article WHERE {
+          BIND(wd:%s AS ?item)
+          ?article schema:about ?item.
+          ?article schema:inLanguage "%s".
+          ?article schema:isPartOf <https://%s.wikipedia.org/>.
+        }
+        """ % (
+            wikidata_id,
+            language,
+            language,
+        )
+
+        sparql.setQuery(query)
+        sparql.setReturnFormat(JSON)
+
+        results = sparql.query().convert()
+
+        if results["results"]["bindings"]:
+            return results["results"]["bindings"][0]["article"]["value"]
+        else:
+            return "No Wikipedia article found for this Wikidata ID"
+
 
 
 if __name__ == "__main__":

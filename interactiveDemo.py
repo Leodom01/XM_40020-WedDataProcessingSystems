@@ -64,13 +64,12 @@ def main_section(user_question, user_choice,df,R,A,C,E):
             punc_free_sent = preProc.remove_punctuation(str(sent))
             name = entity
             link = entityLinker.link_entity(punc_free_sent, str(name))
-            if "No matching candidates" in link:
-                continue
-            entities.append({"name": name, "link": link})
+            if link is not None:
+                entities.append({"name": name, "link": link})
     E = entities
     entities_set = set()
     for entity in entities:
-        entities_set.add((entity["name"], entity["link"]))
+        entities_set.add((entity["name"].text.lower(), entity["link"]))
 
     for entity in entities_set:
         print(entity[0], " : ", entity[1])
@@ -149,6 +148,7 @@ while True:
     user_choice = input(
         "Type I to run interactive demo, any other letter to run Fixed demo:\n"
     )
+    if user_choice == 'brk': break
     if user_choice == "I":
         user_question = input("Type your question:\n")
         main_section(user_question, user_choice,0,R,A,C,E)

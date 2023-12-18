@@ -4,11 +4,9 @@ from spacy import displacy
 This module handles Named Entity Recognition.
 """
 class NER:
-    def __init__(self, raw_text, tokens=''):
-        self.tokens = tokens
-        self.raw_text = raw_text
-
-    def ner_spacy(self):
+    def __init__(self):
+        self.model = spacy.load("en_core_web_lg")
+    def ner_spacy(self, text):
         """
         Loads the spaCy model for Named Entity Recognition (NER).
 
@@ -18,8 +16,8 @@ class NER:
         Raises:
         OSError: If the spaCy model loading fails.
         """
-        spacyNER = spacy.load("en_core_web_sm")
-        return spacyNER(self.raw_text)
+        print(text)
+        return self.model(text)
 
 
     def spacyVisulizer(self, doc):

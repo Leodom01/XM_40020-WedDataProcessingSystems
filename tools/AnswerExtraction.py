@@ -1,7 +1,7 @@
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
-
+import utils
 # TODO: these models start downloading once they're used. perhaps better to download them once you create the container.
 
 def entity_answer_extraction(question, context):
@@ -34,7 +34,15 @@ def boolean_answer_extraction(question, context):
 
     return (probability_yes, probability_no)
 
-def extract_entity(ans, entities):
-    for ent in entities:
-        if str(ent['name']) in ans:
-            return ent
+def extract_answer(question_type, entities, question, context):
+    if question_type == "Boolean":
+        pyes, pno = boolean_answer_extraction(question, context)
+        if pyes > pno:
+            A = "Yes"
+        else:
+            A = "No"
+    else:
+        ext_ent = entity_answer_extraction(question, context)
+        A = utils.extract_entity(ext_ent['answer'], entities)
+    return A
+

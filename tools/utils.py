@@ -1,5 +1,5 @@
 import re
-
+import QuestionToStatement as qts
 """
 This module provide utility functions that are used throughout the system.
 """
@@ -34,10 +34,10 @@ def statement_with_wikidatIDs(fact_statement, ent_list):
     input_string = fact_statement
     for ent in ent_list:
         name = ent['name']
-        link = ent['link']
+        wikidata_ID = ent['wikidata_ID']
         # extract the Wikidata ID and assign it
-        if is_wikidata_entity(link.split('/')[-1]):
-            input_string = input_string.replace(str(name), link.split('/')[-1])
+        if is_wikidata_entity(wikidata_ID):
+            input_string = input_string.replace(str(name), wikidata_ID)
     if input_string == None:
         return fact_statement
     else:
@@ -65,3 +65,29 @@ def find_suitable_triple(triples):
             if len(triple['relation']) >= max_len:
                 trpl = triple
     return trpl
+
+
+def extract_text(input_text):
+    """
+    Extracts the text between "Question: " and " Answer:" from the given input text.
+
+    Args:
+    input_text (str): The input string containing the pattern "Question: X Answer:"
+
+    Returns:
+    str or None: The extracted text if the pattern is found, else None.
+    """
+    pattern = r"Question: (.*?) Answer:"
+    match = re.search(pattern, input_text)
+
+    if match:
+        return match.group(1)
+    else:
+        return input_text
+
+def extract_entity(ans, entities):
+    for ent in entities:
+        if str(ent['name']).lower() == ans.lower():
+            return ent
+
+

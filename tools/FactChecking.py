@@ -154,35 +154,29 @@ def check_relationship(entity_id, relationship, subject_id):
 
     return False
 
+def fact_check_triple(question_type, answer, triple):
+    fact_check_res = check_relationship(
+        triple["subject"], triple["relation"], triple["object"]
+    )
+    print("==========================")
+    print("Fact check result:")
+    print(fact_check_res)
+    print("correct/incorrect:")
+    if question_type == "Boolean":
+        if (answer == 'Yes' and fact_check_res == True) or (
+                answer == 'No' and fact_check_res == False
+        ):
+            print("CORRECT")
+            return "correct"
+        else:
+            print("INCORRECT")
+            return "incorrect"
 
-# print("Is Managua the capital of Nicaragua?", end=": ")
-# print(check_relationship("Q811", "capital", "Q3274"))
+    if question_type == "Entity" or question_type == "Completion":
+        if fact_check_res == True:
+            print("CORRECT")
+            return "correct"
 
-# print("Is Biden the current president of US?", end=": ")
-# print(check_relationship("Q30", "current president", "Q6279"))
-
-# print("Is Obama the current president of US?", end=": ")
-# print(check_relationship("Q30", "current president", "Q76"))
-
-# print("Is Jupiter the largest planet in solar system?", end=": ")
-# print(check_relationship("Q544", "largest planet", "Q319"))
-
-# print("Is da Vinci the painter of Mona Lisa?", end=": ")
-# print(check_relationship("Q12418", "painter", "Q762"))
-
-# print("Is Tokyo the capital of Japan?", end=": ")
-# print(check_relationship("Q17", "capital", "Q1490"))
-
-# print("Did Shakespear write the Romeo and Julliet?", end=": ")
-# print(check_relationship("Q83186", "writer", "Q692"))
-
-# print("Is declaration of independence signed in 1776", end=": ")
-# print(check_relationship("Q127912", "date signed", "1776"))
-
-# print("Did Shakespear write the Romeo and Julliet?", end=": ")
-# print(check_relationship("Q83186", "writer", "Shakespear"))
-
-# properties = query_entity_properties("Q127912")
-
-# for prop, values in properties.items():
-#     print(f"{prop}:\n\t{', '.join(values)}\n{'-'*40}")
+        else:
+            print("INCORRECT")
+            return "incorrect"
