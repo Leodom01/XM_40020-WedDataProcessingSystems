@@ -64,11 +64,13 @@ def main_section(user_question, user_choice,df,R,A,C,E):
             punc_free_sent = preProc.remove_punctuation(str(sent))
             name = entity
             link = entityLinker.link_entity(punc_free_sent, str(name))
+            if "No matching candidates" in link:
+                continue
             entities.append({"name": name, "link": link})
     E = entities
     entities_set = set()
     for entity in entities:
-        entities_set.add((entity["name"].lower(), entity["link"]))
+        entities_set.add((entity["name"], entity["link"]))
 
     for entity in entities_set:
         print(entity[0], " : ", entity[1])
@@ -106,7 +108,7 @@ def main_section(user_question, user_choice,df,R,A,C,E):
     print("All the triples extracted:")
     for triple in triples:
         print(triple)
-    mainTriple = utils.find_best_triple(triples)
+    mainTriple = utils.find_suitable_triple(triples)
     print("Triple chosen for fact checking:")
     print(mainTriple)
     if mainTriple is None:

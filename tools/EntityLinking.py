@@ -101,11 +101,11 @@ class EntityLinker:
 
         most_relevant_index = np.argmax(similarities)
 
-        return candidates[most_relevant_index]
+        return candidates[most_relevant_index]['Item']
 
 
 if __name__ == "__main__":
     linker = EntityLinker()
     context = "Does lebron james play in the lakers"
     named_entity = "lebron james"
-    linker.link_entity(context, named_entity)
+    print(linker.link_entity(context, named_entity))

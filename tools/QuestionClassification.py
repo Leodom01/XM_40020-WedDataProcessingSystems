@@ -13,7 +13,7 @@ def classify_question(question):
     str: A string representing the category of the question.
          Possible values:
          - 'Boolean' if the question starts with a boolean keyword.
-         - 'Entity' if the question contains wh words.
+         - 'Entity' if the question contains WH words.
          - 'Completion' if the question doesn't match the above criteria.
     """
     nlp = spacy.load("en_core_web_sm")

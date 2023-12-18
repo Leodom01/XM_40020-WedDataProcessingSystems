@@ -9,9 +9,6 @@ class PreProcessor:
         self.text_to_preprocess = text_to_preprocess
         self.tokenized_text = word_tokenize(self.text_to_preprocess)
 
-    def pos(self):
-        print(self.tokenized_text)
-        return pos_tag(self.tokenized_text)
     def replace_text(self, text):
         self.text_to_preprocess = text
         self.tokenized_text = ""

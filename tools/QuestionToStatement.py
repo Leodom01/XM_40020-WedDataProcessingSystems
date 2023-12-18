@@ -1,13 +1,9 @@
 import nltk
+import spacy
 from nltk import word_tokenize, pos_tag
-from nltk.tree import Tree
-import re
-
-# TODO: not fully tested, there could be alot of cases where this does not work. Implement a better solution, low priority
 
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
-
 
 def find_wh_word(question):
     # Tokenize the question and perform part-of-speech tagging
