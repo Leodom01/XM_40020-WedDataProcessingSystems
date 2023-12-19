@@ -85,17 +85,15 @@ class EntityLinker:
             print(f"No matching candidates found for entity {named_entity}.")
             return
 
-        model = SentenceTransformer("/sharedFolder/models/entity_linking_model")
-
         context = f"title: {named_entity}, description: {context}"
-        context_embedding = model.encode(context)
+        context_embedding = self.model.encode(context)
 
         candidate_texts = [
             f'title: {candidate["Label"]}, description: {candidate["Description"]}'
             for candidate in candidates
         ]
 
-        candidate_embeddings = model.encode(candidate_texts)
+        candidate_embeddings = self.model.encode(candidate_texts)
 
         similarities = cosine_similarity([context_embedding], candidate_embeddings)[0]
 

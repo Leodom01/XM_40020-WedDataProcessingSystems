@@ -15,6 +15,8 @@ class LLM_PostProcess:
         self.ner = NER()
         self.preProc = PreProcessor()
         self.relation_extraction = OpenRE()
+        self.answerExt = ae.AnswerExtraction()
+
 
     def pipeline(self, user_question, llm_output):
         print("==========================")
@@ -59,7 +61,7 @@ class LLM_PostProcess:
         print("==========================")
         print("Extracted Answer:")
         qType = qc.classify_question(user_question)
-        A = ae.extract_answer(qType, entities, user_question, llm_output)
+        A = self.answerExt.extract_answer(qType, entities, user_question, llm_output)
         if A is None:
             return {'R': llm_output, 'A': '', 'C': 'incorrect', 'E': entities}
         print(A)
@@ -75,7 +77,6 @@ class LLM_PostProcess:
         print("Triple chosen for fact checking:")
         print(mainTriple)
         print("==========================")
-        #TODO: if main triple is null do something
         if mainTriple is None:
             return {'R': llm_output, 'A': A, 'C': 'incorrect', 'E': entities}
         C = fc.fact_check_triple(qType, A, mainTriple)
