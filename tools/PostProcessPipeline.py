@@ -17,6 +17,9 @@ class LLM_PostProcess:
         self.relation_extraction = OpenRE()
 
     def pipeline(self, user_question, llm_output):
+        print("==========================")
+        print("Model answer:")
+        print(user_question)
         if user_question is None:
             print("No input question provided!")
             return {'R': llm_output, 'A': '', 'C': '', 'E': []}
@@ -58,7 +61,7 @@ class LLM_PostProcess:
         qType = qc.classify_question(user_question)
         A = ae.extract_answer(qType, entities, user_question, llm_output)
         if A is None:
-            return {'R': llm_output, 'A': '', 'C': 'Correct', 'E': entities}
+            return {'R': llm_output, 'A': '', 'C': 'incorrect', 'E': entities}
         print(A)
         print("==========================")
         # Open Relation extractions
@@ -74,7 +77,7 @@ class LLM_PostProcess:
         print("==========================")
         #TODO: if main triple is null do something
         if mainTriple is None:
-            return {'R': llm_output, 'A': A, 'C': 'Correct', 'E': entities}
+            return {'R': llm_output, 'A': A, 'C': 'incorrect', 'E': entities}
         C = fc.fact_check_triple(qType, A, mainTriple)
 
         return {'R': llm_output, 'A': A, 'C': C, 'E': entities}

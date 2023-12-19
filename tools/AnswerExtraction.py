@@ -44,5 +44,4 @@ def extract_answer(question_type, entities, question, context):
     else:
         ext_ent = entity_answer_extraction(question, context)
         A = utils.extract_entity(ext_ent['answer'], entities)
-        print(ext_ent)
     return A
