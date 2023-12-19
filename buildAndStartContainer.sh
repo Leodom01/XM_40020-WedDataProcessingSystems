@@ -3,6 +3,7 @@
 echo "Downloading Stanford NLP model..."
 curl -OJL "https://huggingface.co/stanfordnlp/CoreNLP/resolve/main/stanford-corenlp-latest.zip"
 unzip -o stanford-corenlp-latest.zip >/dev/null
+rm stanford-corenlp-latest.zip
 mv stanford-corenlp-4.5.5 stanza_corenlp >/dev/null
 unzip -o nltk_data.zip >/dev/null
 git lfs clone https://huggingface.co/sentence-transformers/all-mpnet-base-v2 models/entity_linking_model

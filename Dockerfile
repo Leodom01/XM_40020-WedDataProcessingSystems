@@ -13,6 +13,6 @@ RUN sudo apt install -y git-lfs>/dev/null
 RUN git lfs install
 
 ENV NLTK_DATA=/sharedFolder/nltk_data
-ENV CORENLP_HOME=/sharedFolder/stanza_corenlp
+ENV CORENLP_HOME=/sharedFolder/models/stanza_corenlp
 
 RUN python3 -m spacy download en

@@ -1,11 +1,13 @@
+import sys
+
 from llama_cpp import Llama
 from tools.PostProcessPipeline import LLM_PostProcess
 import tools.utils as utils
 # LLaMA setup
 model_path = "/home/user/models/llama-2-7b.Q4_K_M.gguf"
 llm = Llama(model_path=model_path, verbose=False)
-
 llm_postprocess = LLM_PostProcess()
+
 def run_single():
     # Extract the question if input is in the following format: "Question: Q Answer:"
     user_question = utils.extract_entity(input('Type your question:'))
@@ -23,7 +25,7 @@ def run_single():
     R = R[len(prompt) :]
     output = llm_postprocess.pipeline(user_question, R)
 
-def run_batch(input_path, output_path):
+def run_batch(input_path="task_data/example_input.txt", output_path="task_data/example_outputs.txt"):
     data = utils.load_data(input_path)
     # data = load_confusion_data()
     for q in data.keys():
@@ -47,5 +49,8 @@ def run_batch(input_path, output_path):
         data[q]['C'] = output['C']
         data[q]['E'] = output['E']
     utils.output(data, output_path)
-run_batch('task_data/example_input.txt', 'task_data/example_outputs.txt')
+
+if __name__ == "__main__":
+    # Expected call: python3 inputFile.txt outputFile.txt
+    run_batch(sys.argv[1], sys.argv[2])
 
