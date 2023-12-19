@@ -1,5 +1,4 @@
 import re
-import QuestionToStatement as qts
 """
 This module provide utility functions that are used throughout the system.
 """
@@ -90,4 +89,23 @@ def extract_entity(ans, entities):
         if str(ent['name']).lower() == ans.lower():
             return ent
 
+def load_data(input_path):
+    data = {}
+    with open(input_path) as openfileobject:
+        for line in openfileobject:
+            prts = line.rstrip().split('\t')
+            data[prts[0]] = {
+                'Q': prts[1]
+            }
+        openfileobject.close()
+    return data
+
+def output(data, out_path):
+    with open(out_path, 'w') as fw:
+        for qID in data.keys():
+            fw.write(f"{qID}\tR\"{data[qID]['R']}\n")
+            fw.write(f"{qID}\tA\"{data[qID]['A']}\n")
+            fw.write(f"{qID}\tC\"{data[qID]['C']}\n")
+            for ent in data[qID]['E']:
+                fw.write(f"{qID}\tE\"{ent['name']}\t{ent['link']}\n")
 

@@ -83,7 +83,7 @@ class EntityLinker:
 
         if not candidates:
             print(f"No matching candidates found for entity {named_entity}.")
-            return None
+            return
 
         model = SentenceTransformer("/sharedFolder/models/entity_linking_model")
 

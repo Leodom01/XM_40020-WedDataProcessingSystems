@@ -5,7 +5,7 @@ This module handles Named Entity Recognition.
 """
 class NER:
     def __init__(self):
-        self.model = spacy.load("en_core_web_lg")
+        self.model = spacy.load("en_core_web_sm")
     def ner_spacy(self, text):
         """
         Loads the spaCy model for Named Entity Recognition (NER).

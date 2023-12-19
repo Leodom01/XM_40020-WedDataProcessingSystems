@@ -1,15 +1,12 @@
-from PreProcessor import PreProcessor
-from NER import NER
-from OpenRE import OpenRE
-from llama_cpp import Llama
-import QuestionClassification as qc
-import AnswerExtraction as ae
-from EntityLinking import EntityLinker
-import QuestionToStatement as qts
-import FactChecking as fc
-import LoadTestData as ltd
-import pandas as pd
-import utils as utils
+from tools.PreProcessor import PreProcessor
+from tools.NER import NER
+from tools.OpenRE import OpenRE
+import tools.QuestionClassification as qc
+import tools.AnswerExtraction as ae
+from tools.EntityLinking import EntityLinker
+import tools.QuestionToStatement as qts
+import tools.FactChecking as fc
+import tools.utils as utils
 """
 This module is the main pipeline to handle post-processing of the LLM output.
 """
@@ -23,7 +20,9 @@ class LLM_PostProcess:
         if question is None:
             print("No input question provided!")
             return
-
+        print("==========================")
+        print("Model answer:")
+        print(llm_output)
         # Extract the question if input is in the following format: "Question: Q Answer:"
         user_question = utils.extract_text(question)
         # Named entity recognition
@@ -42,7 +41,10 @@ class LLM_PostProcess:
             for entity in sent.ents:
                 punc_free_sent = self.preProc.remove_punctuation(str(sent))
                 name = entity
-                wikidataID, wikipedia_link = entityLinker.link_entity(punc_free_sent, str(name))
+                try:
+                    wikidataID, wikipedia_link = entityLinker.link_entity(punc_free_sent, str(name))
+                except:
+                    continue
                 if wikipedia_link is not None:
                     entities.append({"name": name, "link": wikipedia_link, 'wikidata_ID': wikidataID})
         E = entities

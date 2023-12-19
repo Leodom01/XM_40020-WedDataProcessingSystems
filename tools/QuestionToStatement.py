@@ -1,7 +1,7 @@
 import nltk
 import spacy
 from nltk import word_tokenize, pos_tag
-import utils
+import tools.utils as utils
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 
@@ -44,7 +44,7 @@ def construct_factual_statement(qType, entities, question, answer):
     fact_statement = ''
     # not changing the structure of boolean questions since stanford openie is able to extract triples from it
     if qType == "Boolean":
-        return question
+        return utils.statement_with_wikidatIDs(question, entities)
     else:
         ext_ent = utils.extract_entity(answer['name'].text, entities)
         if qType == "Entity":
