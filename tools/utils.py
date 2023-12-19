@@ -35,8 +35,7 @@ def statement_with_wikidatIDs(fact_statement, ent_list):
         name = ent['name']
         wikidata_ID = ent['wikidata_ID']
         # extract the Wikidata ID and assign it
-        if is_wikidata_entity(wikidata_ID):
-            input_string = input_string.replace(str(name), wikidata_ID)
+        input_string = input_string.replace(str(name), wikidata_ID)
     if input_string == None:
         return fact_statement
     else:

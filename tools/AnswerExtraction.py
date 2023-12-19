@@ -1,7 +1,7 @@
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
-import tools.utils
+import tools.utils as utils
 # TODO: these models start downloading once they're used. perhaps better to download them once you create the container.
 
 def entity_answer_extraction(question, context):
@@ -44,5 +44,5 @@ def extract_answer(question_type, entities, question, context):
     else:
         ext_ent = entity_answer_extraction(question, context)
         A = utils.extract_entity(ext_ent['answer'], entities)
+        print(ext_ent)
     return A
-
