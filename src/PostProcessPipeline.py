@@ -16,6 +16,7 @@ class LLM_PostProcess:
         self.preProc = PreProcessor()
         self.relation_extraction = OpenRE()
         self.answerExt = ae.AnswerExtraction()
+        self.factCheck = fc.FactChecking()
 
 
     def pipeline(self, user_question, llm_output):
@@ -82,7 +83,7 @@ class LLM_PostProcess:
         if qType is not 'Boolean': A = A['link']
         if mainTriple is None:
             return {'R': llm_output, 'A': A, 'C': 'incorrect', 'E': E}
-        C = fc.fact_check_triple(qType, A, mainTriple)
+        C = self.factCheck.fact_check_triple(qType, A, mainTriple)
 
         return {'R': llm_output, 'A': A, 'C': C, 'E': E}
 

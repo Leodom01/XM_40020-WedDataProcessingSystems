@@ -17,6 +17,7 @@ def classify_question(question):
          - 'Completion' if the question doesn't match the above criteria.
     """
     nlp = spacy.load("en_core_web_sm")
+    # Using spacy tokenizer
     doc = nlp(question)
 
     entity_keywords = ['who', 'what', 'where', 'when', 'why', 'which', 'whom', 'whose']
