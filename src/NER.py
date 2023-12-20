@@ -16,7 +16,6 @@ class NER:
         Raises:
         OSError: If the spaCy model loading fails.
         """
-        print(text)
         return self.model(text)
 
 

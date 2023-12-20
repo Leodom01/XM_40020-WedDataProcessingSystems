@@ -1,3 +1,19 @@
 question-000	Is Managua the capital of Nicaragua?
 question-001	is Managua the capital of Nicaragua?
 question-002	the capital of nicaragua is...
+question-003	Managua is not the capital of Nicaragua. Yes or no?
+question-004	Who is the current President of the United States?
+question-005	Name the largest planet in our solar system.
+question-006	Where was the Declaration of Independence signed?
+question-007	What is the capital of Japan?
+question-009	Who wrote the play 'Romeo and Juliet'?
+question-010	What is the main ingredient in guacamole?
+question-011	Which element has the chemical symbol 'H'?
+question-012	Who is known as the 'Father of Modern Physics'?
+question-013	What is the currency of Australia?
+question-014	In which year did World War II end?
+question-015	Name the tallest mountain in the world.
+question-016	Has a soccer team 15 players?
+question-017	What is the largest ocean on Earth?
+question-018	Who painted the Mona Lisa?
+question-019    Question: What is the capital of Iran? Answer:

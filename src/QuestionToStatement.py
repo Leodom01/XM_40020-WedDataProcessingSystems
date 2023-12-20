@@ -1,7 +1,7 @@
 import nltk
 import spacy
 from nltk import word_tokenize, pos_tag
-import tools.utils as utils
+import src.utils as utils
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 

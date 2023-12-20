@@ -82,7 +82,6 @@ class EntityLinker:
         candidates = self.query_wikidata(named_entity)
 
         if not candidates:
-            print(f"No matching candidates found for entity {named_entity}.")
             return
 
         context = f"title: {named_entity}, description: {context}"

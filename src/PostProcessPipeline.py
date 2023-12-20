@@ -1,12 +1,12 @@
-from tools.PreProcessor import PreProcessor
-from tools.NER import NER
-from tools.OpenRE import OpenRE
-import tools.QuestionClassification as qc
-import tools.AnswerExtraction as ae
-from tools.EntityLinking import EntityLinker
-import tools.QuestionToStatement as qts
-import tools.FactChecking as fc
-import tools.utils as utils
+from src.PreProcessor import PreProcessor
+from src.NER import NER
+from src.OpenRE import OpenRE
+import src.QuestionClassification as qc
+import src.AnswerExtraction as ae
+from src.EntityLinking import EntityLinker
+import src.QuestionToStatement as qts
+import src.FactChecking as fc
+import src.utils as utils
 """
 This module is the main pipeline to handle post-processing of the LLM output.
 """
@@ -19,9 +19,10 @@ class LLM_PostProcess:
 
 
     def pipeline(self, user_question, llm_output):
-        print("==========================")
-        print("Model answer:")
-        print(user_question)
+        print("===============================================")
+        print("User question:")
+        qType = qc.classify_question(user_question)
+        print(user_question, " | Type:", qType)
         if user_question is None:
             print("No input question provided!")
             return {'R': llm_output, 'A': '', 'C': '', 'E': []}
@@ -42,6 +43,9 @@ class LLM_PostProcess:
         entities = []
         for sent in doc.sents:
             for entity in sent.ents:
+                # sometimes the NER module recognizes numbers as entities
+                if entity.text.isnumeric() and len(entity.text) == 1:
+                    continue
                 punc_free_sent = self.preProc.remove_punctuation(str(sent))
                 name = entity
                 try:
@@ -50,20 +54,18 @@ class LLM_PostProcess:
                     continue
                 if wikipedia_link is not None:
                     entities.append({"name": name, "link": wikipedia_link, 'wikidata_ID': wikidataID})
-        E = entities
         entities_set = set()
         for entity in entities:
             entities_set.add((entity["name"].text.lower(), entity["link"], entity['wikidata_ID']))
 
         for entity in entities_set:
             print(entity[0], " : ", entity[1], " - ", entity[2])
-
+        E = entities_set
         print("==========================")
         print("Extracted Answer:")
-        qType = qc.classify_question(user_question)
         A = self.answerExt.extract_answer(qType, entities, user_question, llm_output)
         if A is None:
-            return {'R': llm_output, 'A': '', 'C': 'incorrect', 'E': entities}
+            return {'R': llm_output, 'A': '', 'C': 'incorrect', 'E': E}
         print(A)
         print("==========================")
         # Open Relation extractions
@@ -77,11 +79,12 @@ class LLM_PostProcess:
         print("Triple chosen for fact checking:")
         print(mainTriple)
         print("==========================")
+        if qType is not 'Boolean': A = A['link']
         if mainTriple is None:
-            return {'R': llm_output, 'A': A, 'C': 'incorrect', 'E': entities}
+            return {'R': llm_output, 'A': A, 'C': 'incorrect', 'E': E}
         C = fc.fact_check_triple(qType, A, mainTriple)
 
-        return {'R': llm_output, 'A': A, 'C': C, 'E': entities}
+        return {'R': llm_output, 'A': A, 'C': C, 'E': E}
 
 if __name__ == "__main__":
     tmp = LLM_PostProcess()

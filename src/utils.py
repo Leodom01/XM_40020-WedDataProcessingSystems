@@ -87,13 +87,16 @@ def extract_entity(ans, entities):
     for ent in entities:
         if str(ent['name']).lower() == ans.lower():
             return ent
+    return None
 
 def load_data(input_path):
     data = {}
     with open(input_path) as openfileobject:
         for line in openfileobject:
+            # skip empty lines
+            if len(line) < 5:
+                continue
             prts = line.rstrip().split()
-            print(prts[1:])
             data[prts[0]] = {
                 'Q': ' '.join(prts[1:])
             }

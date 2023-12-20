@@ -136,7 +136,7 @@ def check_relationship(entity_id, relationship, subject_id):
 
     properties = query_entity_properties(entity_id)
     most_similar_property, values = get_most_similar_property(relationship, properties)
-
+    print(f"most_similar_property = {most_similar_property}")
     subject_is_entity = is_entity(subject_id)
 
     for value in values:
@@ -176,7 +176,6 @@ def fact_check_triple(question_type, answer, triple):
         if fact_check_res == True:
             print("CORRECT")
             return "correct"
-
         else:
             print("INCORRECT")
             return "incorrect"
