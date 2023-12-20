@@ -32,5 +32,9 @@ def run_batch(input_path="task_data/example_input.txt", output_path="task_data/e
     utils.output(data, output_path)
 
 if __name__ == "__main__":
-    # Expected call: python3 interactiveDemo.py inputFile.txt outputFile.txt
-    run_batch(sys.argv[1], sys.argv[2])
+    # Expected call: python3 inputFile.txt outputFile.txt
+    if(len(sys.argv) >= 3):
+        run_batch(sys.argv[1], sys.argv[2])
+    else:
+        run_batch()
+
