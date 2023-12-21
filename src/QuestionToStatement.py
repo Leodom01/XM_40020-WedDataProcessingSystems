@@ -38,7 +38,7 @@ def replace_wh_word_with_entity(question, entity):
         replaced_question = question.replace(wh_word, str(entity))
         return replaced_question
     else:
-        return "No WH-word found in the question"
+        return str(entity)+question
 
 def construct_factual_statement(qType, entities, question, answer):
     fact_statement = ''
