@@ -2,7 +2,7 @@
 # XM_40020-WedDataProcessingSystems
 
 ## Description
-The project implements a pipeline to fact check the answer of a LLM (LLaMa) comparing it with WikiData.
+The project implements a pipeline to fact check the answer of a LLM (LLaMa) by using Wikidata as a knowledge base.
 
 Given an input file in the format: <ID question><TAB><question><newline> 
 We will return a file with formatting: <ID question><TAB>[R,A,C,E]<value>
@@ -11,9 +11,9 @@ Where:
 
 "A" has the extracted answer distilled from the LLM answer.
 
-"C" is the tag correct/incorrect, the outcome of the answer fact checking.
+"C" is the tag correct/incorrect, the outcome of the fact checking.
 
-"E" are the entities extracted, both from question and answer.
+"E" are the entities extracted and linked to Wikipedia, both from question and answer.
 
 Further technical details can be found in report.pdf
 Be aware: all the project data and files can be found in the /sharedFolder of the docker container, we write nowhere else.
@@ -29,7 +29,7 @@ In order to run the image of the project you will need to pull the docker image 
   cd /sharedFolder
   python3 interactiveDemo.py 
 ```
-The scripts uses by default input and output file: task_data/example_input.txt and task_data/example_output.txt .
+The scripts use by default input and output file: task_data/example_input.txt and task_data/example_output.txt .
 In case you want to use different input and output files you can run:
 ```bash
   # Within the container
@@ -42,7 +42,7 @@ To copy files from your local machine you can use:
 ```
 
 ## Build image (just in the case the docker image is not working straight away)
-In order to build the image you'll need to have the following tools in your machine, we need to fetch the models:
+In order to build the image you'll need to have the following tools installed on your machine. We use them to fetch the models:
 ```bash
   curl
   unzip
