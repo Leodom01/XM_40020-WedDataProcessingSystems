@@ -1,22 +1,21 @@
 
 # XM_40020-WedDataProcessingSystems
 
-Given input: <ID quest!on><TAB>text of the question/comple!on<newline> 
+## Description
+The project implements a pipeline to fact check the answer of a LLM (LLaMa) comparing it with WikiData.
 
-will return a file with formatting: <ID ques!on><TAB>[R,A,C,E]<answer>
+Given an input file in the format: <ID question><TAB><question><newline> 
+We will return a file with formatting: <ID question><TAB>[R,A,C,E]<value>
+Where:
+"R" has the value the raw text produced by the language model.
 
-where:
+"A" has the extracted answer distilled from the LLM answer.
 
-"R" indicates the raw text produced by the language model, 
+"C" is the tag correct/incorrect, the outcome of the answer fact checking.
 
-"A" is the extracted answer
-
-"C" is the tag correct/incorrect
-
-"E" are the entities extracted.
+"E" are the entities extracted, both from question and answer.
 
 Further technical details can be found in report.pdf
-
 Be aware: all the project data and files can be found in the /sharedFolder of the docker container, we write nowhere else.
 
 ## Run container
@@ -30,7 +29,7 @@ In order to run the image of the project you will need to pull the docker image 
   cd /sharedFolder
   python3 interactiveDemo.py 
 ```
-The scripts uses by default input and output file: task_data/example_input.txt and task_data/example_output.txt
+The scripts uses by default input and output file: task_data/example_input.txt and task_data/example_output.txt .
 In case you want to use different input and output files you can run:
 ```bash
   # Within the container
@@ -59,6 +58,4 @@ In case the input file and output file aren't defined the script will read from 
 ```python
 python3 interactiveDemo.py <input file> <output file>
 ```
-
-
-
+During the run the script will print logs to console, the "official" output will always be found in the output file tho.
