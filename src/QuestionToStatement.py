@@ -50,12 +50,11 @@ def construct_factual_statement(question_type, entities, question, answer):
     if question_type == "Boolean":
         return utils.statement_with_wikidatIDs(question, entities)
     else:
-        ext_ent = utils.extract_entity(answer['name'].text, entities)
         if question_type == "Entity":
-            tmp = replace_wh_word_with_entity(question, ext_ent['wikidata_ID'])
+            tmp = replace_wh_word_with_entity(question, answer['wikidata_ID'])
             return utils.statement_with_wikidatIDs(tmp, entities)
         if question_type == "Completion":
-            tmp = question + " " + ext_ent['wikidata_ID']
+            tmp = question + " " + answer['wikidata_ID']
             return utils.statement_with_wikidatIDs(tmp, entities)
 
 

@@ -89,6 +89,16 @@ def extract_entity(ans, entities):
     return the first entity that matches the entities provided
     """
     for ent in entities:
-        if str(ent).lower() == ans.lower():
+        if str(ent['name']).lower() in ans.lower():
             return ent
     return None
+
+def remove_dup_dict(entities):
+    seen = set()
+    E = []
+    for d in entities:
+        t = tuple(sorted(d.items()))
+        if t not in seen:
+            seen.add(t)
+            E.append(d)
+    return E

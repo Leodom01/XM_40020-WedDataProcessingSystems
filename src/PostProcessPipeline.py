@@ -69,13 +69,7 @@ class LLM_PostProcess:
                     continue
                 entities.append(linked_ent)
         # removing the duplicate entities
-        seen = set()
-        E = []
-        for d in entities:
-            t = tuple(sorted(d.items()))
-            if t not in seen:
-                seen.add(t)
-                E.append(d)
+        E = utils.remove_dup_dict(entities)
         # printing the linked entities
         for entity in E:
             print(f"{entity['name']} - {entity['link']} - {entity['wikidata_ID']}")

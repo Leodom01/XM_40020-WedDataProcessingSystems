@@ -3,7 +3,21 @@ Q2  Where is the Great Barrier Reef located?
 Q3  Whose tomb is inside the Taj Mahal?
 Q4  Where can the Great Pyramid of Giza be found?
 Q5  Question: Which city is home to the Eiffel Tower? Answer:
-Q6  blah blah blah
+Q6  Who wrote the play 'Romeo and Juliet'?
+Q7  What is the currency of Australia?
+Q8  Who painted the Mona Lisa?
+Q9  Question: Who is the director of Pulp Fiction? Answer:
+Q10 Question: What is the capital of Iran? Answer:
+Q11 Is Louvre Museum located in Austria?
+Q12 Who killed Robert Kennedy?
+Q13 Who is the King of the Netherlands?
+Q14 Who wrote the famous novel "1984"?
+Q15 Which country is known as the Land of the Rising Sun?
+Q16 Which planet is known as the "Morning Star" or "Evening Star"?
+Q17 Who painted "Starry Night"?
+Q18 Who composed the opera "The Marriage of Figaro"?
+Q19 Is capital of South Africa Delhi?
+Q20 Did Stephen King write the Hamlet?
 
 
 

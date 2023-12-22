@@ -107,6 +107,8 @@ class EntityLinker:
          "link": self.wikidata_to_wikipedia(candidate_wikidata_ID),
          'wikidata_ID': candidate_wikidata_ID
         }
+        if output['link'] is None:
+            return None
         return output
 
     def wikidata_to_wikipedia(self, wikidata_id):
@@ -144,7 +146,7 @@ class EntityLinker:
         if results["results"]["bindings"]:
             return results["results"]["bindings"][0]["article"]["value"]
         else:
-            return "No Wikipedia article found for this Wikidata ID"
+            return None
 
 
 
