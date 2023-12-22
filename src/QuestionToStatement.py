@@ -4,7 +4,10 @@ from nltk import word_tokenize, pos_tag
 import src.utils as utils
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
-
+"""
+Handles creating factual statement. It mainly handles Wh questions. This is because the open relation extraction 
+method chosen can handle boolean structure but struggles with Wh question/answers.
+"""
 def find_wh_word(question):
     # Tokenize the question and perform part-of-speech tagging
     tokens = word_tokenize(question)
@@ -40,17 +43,18 @@ def replace_wh_word_with_entity(question, entity):
     else:
         return str(entity)+question
 
-def construct_factual_statement(qType, entities, question, answer):
+
+def construct_factual_statement(question_type, entities, question, answer):
     fact_statement = ''
     # not changing the structure of boolean questions since stanford openie is able to extract triples from it
-    if qType == "Boolean":
+    if question_type == "Boolean":
         return utils.statement_with_wikidatIDs(question, entities)
     else:
         ext_ent = utils.extract_entity(answer['name'].text, entities)
-        if qType == "Entity":
+        if question_type == "Entity":
             tmp = replace_wh_word_with_entity(question, ext_ent['wikidata_ID'])
             return utils.statement_with_wikidatIDs(tmp, entities)
-        if qType == "Completion":
+        if question_type == "Completion":
             tmp = question + " " + ext_ent['wikidata_ID']
             return utils.statement_with_wikidatIDs(tmp, entities)
 

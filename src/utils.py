@@ -28,7 +28,7 @@ def statement_with_wikidatIDs(fact_statement, ent_list):
     str: The modified fact statement with Wikidata IDs.
 
     Note:
-    If no replacements are made, the original fact_statement is returned.
+    If no replacements are made, the original factual statement is returned.
     """
     input_string = fact_statement
     for ent in ent_list:
@@ -83,32 +83,12 @@ def extract_text(input_text):
     else:
         return input_text
 
+
 def extract_entity(ans, entities):
+    """
+    return the first entity that matches the entities provided
+    """
     for ent in entities:
-        if str(ent['name']).lower() == ans.lower():
+        if str(ent).lower() == ans.lower():
             return ent
     return None
-
-def load_data(input_path):
-    data = {}
-    with open(input_path) as openfileobject:
-        for line in openfileobject:
-            # skip empty lines
-            if len(line) < 5:
-                continue
-            prts = line.rstrip().split()
-            data[prts[0]] = {
-                'Q': ' '.join(prts[1:])
-            }
-        openfileobject.close()
-    return data
-
-def output(data, out_path):
-    with open(out_path, 'w') as fw:
-        for qID in data.keys():
-            fw.write(f"{qID}\tR\"{data[qID]['R']}\"\n")
-            fw.write(f"{qID}\tA\"{data[qID]['A']}\"\n")
-            fw.write(f"{qID}\tC\"{data[qID]['C']}\"\n")
-            for ent in data[qID]['E']:
-                fw.write(f"{qID}\tE\"{ent['name']}\t{ent['link']}\n")
-

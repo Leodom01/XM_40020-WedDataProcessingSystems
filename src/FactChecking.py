@@ -4,7 +4,6 @@ import numpy as np
 import os
 import logging
 import re
-
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 logging.getLogger("tensorflow").setLevel(logging.ERROR)
 
@@ -156,6 +155,16 @@ class FactChecking:
         return False
 
     def fact_check_triple(self, question_type, answer, triple):
+        """
+        Starts the fact checking process
+        Args:
+            question_type:
+            answer:
+            triple:
+
+        Returns:
+            based on the result of the fact checking and the answer extracted, return Correct/Incorrect
+        """
         fact_check_res = self.check_relationship(
             triple["subject"], triple["relation"], triple["object"]
         )

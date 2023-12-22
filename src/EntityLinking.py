@@ -2,7 +2,9 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-
+"""
+This modules links the entity mentions to the correspondant Wikipedia article
+"""
 
 class EntityLinker:
     def __init__(self):
@@ -82,7 +84,7 @@ class EntityLinker:
         candidates = self.query_wikidata(named_entity)
 
         if not candidates:
-            return
+            return None
 
         context = f"title: {named_entity}, description: {context}"
         context_embedding = self.model.encode(context)
@@ -100,8 +102,12 @@ class EntityLinker:
 
         candidate_wikidata_ID = candidates[most_relevant_index]['Item'].split('/')[-1]
 
-
-        return (candidate_wikidata_ID ,self.wikidata_to_wikipedia(candidate_wikidata_ID))
+        output = {
+         "name": named_entity,
+         "link": self.wikidata_to_wikipedia(candidate_wikidata_ID),
+         'wikidata_ID': candidate_wikidata_ID
+        }
+        return output
 
     def wikidata_to_wikipedia(self, wikidata_id):
         """

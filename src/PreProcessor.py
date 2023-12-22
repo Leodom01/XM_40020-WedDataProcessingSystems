@@ -4,6 +4,9 @@ from stanza.server import CoreNLPClient
 import spacy
 from nltk import ne_chunk, pos_tag
 import string
+"""
+Implements traditional NLP pre processing tasks
+"""
 class PreProcessor:
     def __init__(self, text_to_preprocess=""):
         self.text_to_preprocess = text_to_preprocess

@@ -15,6 +15,3 @@ llama_cpp_python
 stanza
 tensorflow_hub
 tensorflow
-pandas 
-seaborn 
-matplotlib

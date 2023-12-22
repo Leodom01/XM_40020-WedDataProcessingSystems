@@ -20,21 +20,37 @@ class LLM_PostProcess:
 
 
     def pipeline(self, user_question, llm_output):
+        """
+        Calls modules to do a series of operations to post process LLM's output.
+
+        This method executes various steps, including classification of the question type,
+        printing information about the user question and model answer, named entity recognition,
+        entity linking, answer extraction, construction of factual statements, open relation extraction,
+        and fact checking.
+
+        Parameters:
+            user_question: str
+            llm_output: str
+
+        Returns:
+        - dict: A dictionary containing the processed information with the following keys:
+        - 'R' (str): LLM output.
+        - 'A' (str): Extracted answer or an empty string if not found.
+        - 'C' (str): Result of fact-checking, can be 'correct', 'incorrect'.
+        - 'E' (list): List of linked entities.
+        """
         print("===============================================")
         print("User question:")
-        qType = qc.classify_question(user_question)
-        print(user_question, " | Type:", qType)
-        if user_question is None:
-            print("No input question provided!")
-            return {'R': llm_output, 'A': '', 'C': '', 'E': []}
+        question_type = qc.classify_question(user_question)
+        print(user_question, " | Type:", question_type)
         print("==========================")
         print("Model answer:")
         print(llm_output)
         # Named entity recognition
         print("==========================")
         print("Named entities found:")
-        ner = NER()
-        doc = ner.ner_spacy(user_question +" "+ llm_output)
+        # entity recognition of user input and LLM output
+        doc = self.ner.ner_spacy(user_question +" "+ llm_output)
         for ent in doc.ents:
             print(ent)
         # Entity Linking
@@ -48,29 +64,31 @@ class LLM_PostProcess:
                 if entity.text.isnumeric() and len(entity.text) == 1:
                     continue
                 punc_free_sent = self.preProc.remove_punctuation(str(sent))
-                name = entity
-                try:
-                    wikidataID, wikipedia_link = entityLinker.link_entity(punc_free_sent, str(name))
-                except:
+                linked_ent = entityLinker.link_entity(punc_free_sent, entity.text)
+                if linked_ent is None:
                     continue
-                if wikipedia_link is not None:
-                    entities.append({"name": name, "link": wikipedia_link, 'wikidata_ID': wikidataID})
-        entities_set = set()
-        for entity in entities:
-            entities_set.add((entity["name"].text.lower(), entity["link"], entity['wikidata_ID']))
-
-        for entity in entities_set:
-            print(entity[0], " : ", entity[1], " - ", entity[2])
-        E = entities_set
+                entities.append(linked_ent)
+        # removing the duplicate entities
+        seen = set()
+        E = []
+        for d in entities:
+            t = tuple(sorted(d.items()))
+            if t not in seen:
+                seen.add(t)
+                E.append(d)
+        # printing the linked entities
+        for entity in E:
+            print(f"{entity['name']} - {entity['link']} - {entity['wikidata_ID']}")
         print("==========================")
         print("Extracted Answer:")
-        A = self.answerExt.extract_answer(qType, entities, user_question, llm_output)
+        A = self.answerExt.extract_answer(question_type, E, user_question, llm_output)
+        # if no answer was extracted
         if A is None:
             return {'R': llm_output, 'A': '', 'C': 'incorrect', 'E': E}
         print(A)
         print("==========================")
         # Open Relation extractions
-        fact_statement = qts.construct_factual_statement(qType, entities, user_question, A)
+        fact_statement = qts.construct_factual_statement(question_type, E, user_question, A)
         print(f"Factual statement: {fact_statement}")
         triples = self.relation_extraction.extract_relations_stanford(fact_statement)
         print("All the triples extracted:")
@@ -80,10 +98,11 @@ class LLM_PostProcess:
         print("Triple chosen for fact checking:")
         print(mainTriple)
         print("==========================")
-        if qType is not 'Boolean': A = A['link']
+        if question_type != 'Boolean': A = A['link']
+        # if cannot find a suitable triple, return the fact checking as incorrect
         if mainTriple is None:
             return {'R': llm_output, 'A': A, 'C': 'incorrect', 'E': E}
-        C = self.factCheck.fact_check_triple(qType, A, mainTriple)
+        C = self.factCheck.fact_check_triple(question_type, A, mainTriple)
 
         return {'R': llm_output, 'A': A, 'C': C, 'E': E}
 
