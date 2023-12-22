@@ -10,7 +10,6 @@ This demo showcases the usage of the post processing pipeline
 model_path = "/home/user/models/llama-2-7b.Q4_K_M.gguf"
 llm = Llama(model_path=model_path, verbose=False)
 def run_batch(input_path="task_data/example_input.txt", output_path="task_data/example_output.txt"):
-    print("Models are being loaded...this may take up to couple of minutes...")
     data = IO.load_data(input_path)
     for question in data.keys():
         # handle cases when no question is provided
@@ -38,6 +37,7 @@ def run_batch(input_path="task_data/example_input.txt", output_path="task_data/e
     IO.output(data, output_path)
 
 if __name__ == "__main__":
+    print("Models are being loaded...this may take up to couple of minutes...")
     llm_postprocess = LLM_PostProcess()
     # Expected call: python3 inputFile.txt outputFile.txt
     if(len(sys.argv) >= 3):
