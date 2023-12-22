@@ -1,24 +1,18 @@
-Q1  Is the Hagia Sophia in Istanbul?
-Q2  Where is the Great Barrier Reef located?
-Q3  Whose tomb is inside the Taj Mahal?
-Q4  Where can the Great Pyramid of Giza be found?
-Q5  Question: Which city is home to the Eiffel Tower? Answer:
-Q6  Who wrote the play 'Romeo and Juliet'?
-Q7  What is the currency of Australia?
-Q8  Who painted the Mona Lisa?
-Q9  Question: Who is the director of Pulp Fiction? Answer:
-Q10 Question: What is the capital of Iran? Answer:
-Q11 Is Louvre Museum located in Austria?
-Q12 Who killed Robert Kennedy?
-Q13 Who is the King of the Netherlands?
-Q14 Who wrote the famous novel "1984"?
-Q15 Which country is known as the Land of the Rising Sun?
-Q16 Which planet is known as the "Morning Star" or "Evening Star"?
-Q17 Who painted "Starry Night"?
-Q18 Who composed the opera "The Marriage of Figaro"?
-Q19 Is capital of South Africa Delhi?
-Q20 Did Stephen King write the Hamlet?
-
-
-
-
+question-000    Is Managua the capital of Nicaragua?
+question-001    is Managua the capital of Nicaragua?
+question-002    the capital of nicaragua is...
+question-003    Managua is not the capital of Nicaragua. Yes or no?
+question-004	Who is the current President of the United States?
+question-005	Name the largest planet in our solar system.
+question-006	Where was the Declaration of Independence signed?
+question-007	What is the capital of Japan?
+question-009	Who wrote the play 'Romeo and Juliet'?
+question-010	What is the main ingredient in guacamole?
+question-011	Which element has the chemical symbol 'H'?
+question-012	Who is known as the 'Father of Modern Physics'?
+question-013	What is the currency of Australia?
+question-014	In which year did World War II end?
+question-015	Name the tallest mountain in the world.
+question-016	Has a soccer team 15 players?
+question-017	What is the largest ocean on Earth?
+question-018	Who painted the Mona Lisa?
