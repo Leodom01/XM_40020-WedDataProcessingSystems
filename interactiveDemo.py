@@ -9,7 +9,8 @@ This demo showcases the usage of the post processing pipeline
 # LLaMA setup
 model_path = "/home/user/models/llama-2-7b.Q4_K_M.gguf"
 llm = Llama(model_path=model_path, verbose=False)
-def run_batch(input_path="task_data/example_input.txt", output_path="task_data/example_outputs.txt"):
+def run_batch(input_path="task_data/example_input.txt", output_path="task_data/example_output.txt"):
+    print("Models are being loaded...this may take up to couple of minutes...")
     data = IO.load_data(input_path)
     for question in data.keys():
         # handle cases when no question is provided
@@ -18,10 +19,10 @@ def run_batch(input_path="task_data/example_input.txt", output_path="task_data/e
         # Extract the question if input is in the following format: "Question: Q Answer:", if not use the given input
         user_question = utils.extract_text(data[question]['Q'])
         prompt = 'Q:' + user_question + ' A: '
-        print("Computing the answer (can take some time)...")
+        print("The LLM is computing the answer (can take some time)...")
         R = llm(
             prompt,  # Prompt
-            max_tokens=64,  # Generate up to 32 tokens
+            max_tokens=64,  # Generate up to 64 tokens
             stop=[
                 "Q:",
                 "\n",
