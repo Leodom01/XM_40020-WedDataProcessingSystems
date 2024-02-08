@@ -53,7 +53,12 @@ Given an input file in the format: We will return a file with formatting: [R,A,C
 
 "E" are the entities extracted and linked to Wikipedia, both from question and answer.
 
-Further technical details can be found in report.pdf Be aware: all the project data and files can be found in the /sharedFolder of the docker container, we write nowhere else.
+Further technical details can be found in "Final Report.pdf" Be aware: all the project data and files can be found in the /sharedFolder of the docker container, we write nowhere else.
+
+The whole AI pipeline is the following:
+<p align="center">
+    <img src="AI_pipeline.png" alt="drawing" height="50%" width="50%" />
+</p>
 
 ---
 
@@ -189,7 +194,7 @@ docker exec -it <created_container> /bin/bash
 Run the interactive demo:
 
 ```sh
-cd app
+cd sharedFolder/
 python3 interactiveDemo.py
 ```
 
